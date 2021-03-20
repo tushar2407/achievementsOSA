@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     # custsom apps
     'authenticate',
     'main',
+    'people'
 ]
 
 MIDDLEWARE = [
@@ -66,6 +67,7 @@ MIDDLEWARE = [
 ]
 
 SITE_ID = 1
+
 ROOT_URLCONF = 'achievements.urls'
 
 TEMPLATES = [

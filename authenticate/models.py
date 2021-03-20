@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import User
 # Create your models here.
+from people.models import Skill
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -25,6 +26,7 @@ class Profile(models.Model):
 
     address = models.TextField()
     group = models.CharField(max_length = 256)
+    skills = models.ManyToManyField(Skill, related_name='people')
     
     def __str__(self):
         return f'{self.user.username}-{str(self.designation)}'
