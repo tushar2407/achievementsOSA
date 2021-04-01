@@ -37,6 +37,7 @@ class Project(models.Model):
     field = models.CharField(max_length = 256, null = False)
     domain = models.CharField(max_length = 256, null = False)
     tags = models.ManyToManyField(Tag, related_name='projects')
+    dateCreated = models.DateTimeField(auto_now_add = True)
 
     def __str__(self):
         return f'{self.title}'
