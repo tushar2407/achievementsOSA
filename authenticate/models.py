@@ -29,7 +29,7 @@ class Profile(models.Model):
     skills = models.ManyToManyField(Skill, related_name='people')
     
     def __str__(self):
-        return f'{self.user.username}-{str(self.designation)}'
+        return f'{self.user.username} {str(self.designation)}'
 
 class Phone(models.Model):
     phone_regex = RegexValidator(regex=r'^\d{8,13}$', message="Phone number must be entered in the format: '+999999999'. Up to 10 digits allowed.")
@@ -37,4 +37,4 @@ class Phone(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null = False, related_name='phone_numbers')
 
     def __str__(self):
-        return f'{self.number}-{self.user.username}'
+        return f'{self.number} {self.user.username}'

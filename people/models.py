@@ -10,11 +10,20 @@ class Department(models.Model):
     def __str__(self):
         return f'{self.title}' 
    
+class Skill(models.Model):
+    title = models.CharField(max_length = 256, unique = True, null = False)    
+
+    def __str__(self):
+        return f'{self.title}'
+
 class Education(models.Model):
     institution = models.TextField()
     degree = models.CharField(max_length = 256)
     type = models.CharField(max_length = 256)
     field = models.CharField(max_length = 256)
+
+    def __str__(self):
+        return f'{self.institution} {self.degree}'
 
 class Staff(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -33,6 +42,9 @@ class Staff(models.Model):
 
     education = models.ManyToManyField(Education, related_name = 'staff')
 
+    def __str__(self):
+        return f'{self.user.username} {self.emplyeeId} {self.designation}'
+
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     rollNo = models.CharField(max_length = 256)
@@ -43,13 +55,10 @@ class Student(models.Model):
     bio = models.TextField()
     website = models.URLField()
     education = models.ManyToManyField(Education, related_name = 'students')
-
-class Skill(models.Model):
-    title = models.CharField(max_length = 256, unique = True, null = False)    
-
-    def __str__(self):
-        return f'{self.title}'
     
+    def __str__(self):
+        return f'{self.user.username} {self.rollNo}'
+
 class Recruiter(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     company = models.CharField(max_length = 256)
@@ -66,4 +75,5 @@ class Recruiter(models.Model):
 
     criteria = models.ManyToManyField(Skill, related_name='companyCriteria')
 
-    
+    def __str__(self):
+        return f'{self.user.username} {self.company} {self.year}'
