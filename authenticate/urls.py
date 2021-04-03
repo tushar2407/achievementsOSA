@@ -1,8 +1,9 @@
 from django.urls import path, include
 from authenticate.views import ProfileViewset, PhoneViewset
-
 from rest_framework import routers 
-router = routers.DefaultRouter
+
+
+router = routers.DefaultRouter()
 router.register(r'profile', ProfileViewset)
 router.register(r'phone', PhoneViewset)
 
