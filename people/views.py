@@ -47,6 +47,6 @@ class StaffViewset(viewsets.ModelViewSet):
 
 class StudentViewset(viewsets.ModelViewSet):
     serializer_class = Student 
-    queryset = StudentSerializer.objects.all()
+    queryset = Student.objects.all()
     permission_classes = [IsAuthenticated,]
     authentication_classes = [TokenAuthentication,]

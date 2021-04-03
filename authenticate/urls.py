@@ -13,5 +13,5 @@ urlpatterns = [
     # path('rest-auth/password/reset/', CustomPasswordResetView.as_view(), name='password-reset' ),
     # path('rest-auth/', include('rest_auth.urls')),
     # path('rest-auth/registration/', include('rest_auth.registration.urls')),
-    path('api/', include('router.urls')),
+    path('api/', include(router.urls)),
 ]
