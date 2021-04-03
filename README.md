@@ -22,3 +22,7 @@
         student ` POST, GET, PATCH, DELETE `
 
 <hr>
+
+## for every request:
+    Header
+        Authorization : Token <token>
