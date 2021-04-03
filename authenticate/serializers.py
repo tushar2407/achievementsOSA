@@ -6,6 +6,8 @@ from django.utils.translation import ugettext_lazy as _
 from allauth.account.utils import send_email_confirmation, perform_login
 from django.contrib.auth import get_user_model, authenticate
 
+from authenticate.models import Profile, Phone
+
 class UserLoginSerializer(LoginSerializer):
     # password = serializers.CharField(style={'input_type':'password'}, write_only=True)
     class Meta:
@@ -46,10 +48,6 @@ class UserLoginSerializer(LoginSerializer):
         email = attrs.get('email')
         password = attrs.get('password')
         
-        print(username)
-        print(email)
-        print(password)
-
         user = None
 
         if 'allauth' in settings.INSTALLED_APPS:
@@ -88,3 +86,13 @@ class UserLoginSerializer(LoginSerializer):
 
         attrs['user'] = user
         return attrs
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = '__all__'
+
+class PhoneSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Phone
+        fields = '__all__'
