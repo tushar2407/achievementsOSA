@@ -41,7 +41,7 @@ class Staff(models.Model):
     education = models.ManyToManyField(Education, related_name = 'staff')
 
     def __str__(self):
-        return f'{self.user.username} {self.emplyeeId} {self.designation}'
+        return f'{self.user.username} {self.employeeId} {self.designation}'
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
