@@ -28,8 +28,8 @@ class PhoneViewset(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication,]
     permission_classes = [IsAuthenticated,]
 
-    def get_queryset(self, request):
-        return Phone.objects.filter(user = request.user)
+    def get_queryset(self):
+        return Phone.objects.filter(user = self.request.user)
     
     def partial_update(self, request, *args, **kwargs):
         return super().partial_update(request, *args, **kwargs)

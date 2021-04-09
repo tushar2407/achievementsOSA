@@ -45,8 +45,8 @@ class StaffViewset(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated,]
     authentication_classes = [TokenAuthentication,]
 
-    def get_queryset(self, request):
-        return Staff.objects.get(user = request.user)
+    def get_queryset(self):
+        return Staff.objects.get(user = self.request.user)
     
     def partial_update(self, request, pk, *args, **kwargs):
         pk = Staff.objects.get(user = request.user).id
@@ -61,8 +61,8 @@ class StudentViewset(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated,]
     authentication_classes = [TokenAuthentication,]
 
-    def get_queryset(self, request):
-        return Student.objects.get(user = request.user)
+    def get_queryset(self):
+        return Student.objects.get(user = self.request.user)
     
     def partial_update(self, request, pk, *args, **kwargs):
         pk= Student.objects.get(user = request.user).id
@@ -77,8 +77,8 @@ class RecruiterViewset(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated,]
     authentication_classes = [TokenAuthentication,]
 
-    def get_queryset(self, request):
-        return Recruiter.objects.get(user = request.user)
+    def get_queryset(self):
+        return Recruiter.objects.get(user = self.request.user)
     
     def partial_update(self, request, pk, *args, **kwargs):
         pk= Recruiter.objects.get(user = request.user).id

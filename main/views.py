@@ -18,8 +18,8 @@ class ProjectViewset(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated,]
     authentication_classes = [TokenAuthentication,]
 
-    def get_queryset(self, request):
-        return Project.objects.get(addedBy = request.user)
+    def get_queryset(self):
+        return Project.objects.get(addedBy = self.request.user)
     
     # def partial_update(self, request, pk, *args, **kwargs):
     #     pk= request.user.id
@@ -34,8 +34,8 @@ class AchievementViewset(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated,]
     authentication_classes = [TokenAuthentication,]
 
-    def get_queryset(self, request):
-        return Achievement.objects.get(addedBy = request.user)
+    def get_queryset(self):
+        return Achievement.objects.get(addedBy = self.request.user)
     
     # def partial_update(self, request, pk, *args, **kwargs):
     #     pk= request.user.id
