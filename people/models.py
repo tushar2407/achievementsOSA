@@ -25,7 +25,7 @@ class Education(models.Model):
 
 class Staff(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    emplyeeId = models.CharField(max_length = 256, unique = True, null = False)
+    employeeId = models.CharField(max_length = 256, unique = True, null = False)
     associatedSince = models.DateField()
     department = models.ForeignKey(Department, null = False, on_delete = models.CASCADE)
     designation = models.CharField(max_length = 256)
@@ -50,8 +50,8 @@ class Student(models.Model):
     # skills = models.ManyToManyField(Skill)
     major = models.CharField(max_length = 256)
     GPA = models.FloatField(default=0.0)
-    bio = models.TextField()
-    website = models.URLField()
+    bio = models.TextField(blank = True)
+    website = models.URLField(blank = True)
     education = models.ManyToManyField(Education, related_name = 'students')
     
     def __str__(self):

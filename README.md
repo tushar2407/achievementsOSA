@@ -26,3 +26,10 @@
 ## for every request:
     Header
         Authorization : Token <token>
+
+---
+### Users:
+- username = harshkumar; password = hadron43
+- username = tusharmohan; password = tushar2407
+- username = rajivratnshah; password = rajivsirmidas
+- (superuser) username = admin; password = admin
