@@ -17,6 +17,7 @@ class ProjectViewset(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     permission_classes = [IsAuthenticated,]
     authentication_classes = [TokenAuthentication,]
+
 class AchievementViewset(viewsets.ModelViewSet):
     serialzier_class = AchievementSerializer
     queryset = Achievement.objects.all()
