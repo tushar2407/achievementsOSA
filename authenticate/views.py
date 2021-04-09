@@ -12,8 +12,21 @@ class ProfileViewset(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication,]
     permission_classes = [IsAuthenticated,]
 
+    def get_queryset(self, request):
+        return Profile.objects.get(username = request.username)
+    
+    def partial_update(self, request, pk, *args, **kwargs):
+        pk= Profile.objects.get(username = request.username).id
+        return super().partial_update(request, pk, *args, **kwargs)
+
 class PhoneViewset(viewsets.ModelViewSet):
     serializer_class = PhoneSerializer
     queryset = Phone.objects.all()
     authentication_classes = [TokenAuthentication,]
     permission_classes = [IsAuthenticated,]
+
+    def get_queryset(self, request):
+        return Phone.objects.filter(user = request.user)
+    
+    def partial_update(self, request, *args, **kwargs):
+        return super().partial_update(request, *args, **kwargs)

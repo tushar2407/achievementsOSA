@@ -45,8 +45,22 @@ class StaffViewset(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated,]
     authentication_classes = [TokenAuthentication,]
 
+    def get_queryset(self, request):
+        return Staff.objects.get(user = request.user)
+    
+    def partial_update(self, request, pk, *args, **kwargs):
+        pk = Staff.objects.get(user = request.user).id
+        return super().partial_update(request, pk, *args, **kwargs)
+
 class StudentViewset(viewsets.ModelViewSet):
     serializer_class = Student 
     queryset = Student.objects.all()
     permission_classes = [IsAuthenticated,]
     authentication_classes = [TokenAuthentication,]
+
+    def get_queryset(self, request):
+        return Student.objects.get(user = request.user)
+    
+    def partial_update(self, request, pk, *args, **kwargs):
+        pk= Student.objects.get(user = request.user).id
+        return super().partial_update(request, pk, *args, **kwargs)
