@@ -52,6 +52,9 @@ class StaffViewset(viewsets.ModelViewSet):
         pk = Staff.objects.get(user = request.user).id
         return super().partial_update(request, pk, *args, **kwargs)
 
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user)
+
 class StudentViewset(viewsets.ModelViewSet):
     serializer_class = Student 
     queryset = Student.objects.all()
@@ -64,3 +67,22 @@ class StudentViewset(viewsets.ModelViewSet):
     def partial_update(self, request, pk, *args, **kwargs):
         pk= Student.objects.get(user = request.user).id
         return super().partial_update(request, pk, *args, **kwargs)
+    
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user)
+
+class RecruiterViewset(viewsets.ModelViewSet):
+    serializer_class = RecruiterSerializer
+    queryset = Recruiter.objects.all()
+    permission_classes = [IsAuthenticated,]
+    authentication_classes = [TokenAuthentication,]
+
+    def get_queryset(self, request):
+        return Recruiter.objects.get(user = request.user)
+    
+    def partial_update(self, request, pk, *args, **kwargs):
+        pk= Recruiter.objects.get(user = request.user).id
+        return super().partial_update(request, pk, *args, **kwargs)
+    
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user)

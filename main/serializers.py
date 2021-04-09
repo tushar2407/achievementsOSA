@@ -11,8 +11,14 @@ class AchievementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Achievement
         fields = '__all__'
+        extra_kwargs = {
+            'addedBy':{'required':False}
+        }
 
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = '__all__'
+        extra_kwargs = {
+            'addedBy':{'required':False}
+        }

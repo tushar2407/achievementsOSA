@@ -91,8 +91,14 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = '__all__'
+        extra_kwargs = {
+            'user':{'required':False}
+        }
 
 class PhoneSerializer(serializers.ModelSerializer):
     class Meta:
         model = Phone
         fields = '__all__'
+        extra_kwargs = {
+            'user':{'required':False}
+        }

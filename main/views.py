@@ -25,6 +25,9 @@ class ProjectViewset(viewsets.ModelViewSet):
     #     pk= request.user.id
     #     return super().partial_update(request, pk, *args, **kwargs)
 
+    def perform_create(self, serializer):
+        serializer.save(addedBy = self.request.user)
+
 class AchievementViewset(viewsets.ModelViewSet):
     serialzier_class = AchievementSerializer
     queryset = Achievement.objects.all()
@@ -37,3 +40,6 @@ class AchievementViewset(viewsets.ModelViewSet):
     # def partial_update(self, request, pk, *args, **kwargs):
     #     pk= request.user.id
     #     return super().partial_update(request, pk, *args, **kwargs)
+    
+    def perform_create(self, serializer):
+        serializer.save(addedBy = self.request.user)

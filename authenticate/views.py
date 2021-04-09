@@ -16,8 +16,11 @@ class ProfileViewset(viewsets.ModelViewSet):
         return Profile.objects.get(username = request.username)
     
     def partial_update(self, request, pk, *args, **kwargs):
-        pk= Profile.objects.get(username = request.username).id
+        pk= Profile.objects.get(user = request.user).id
         return super().partial_update(request, pk, *args, **kwargs)
+    
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user)
 
 class PhoneViewset(viewsets.ModelViewSet):
     serializer_class = PhoneSerializer
@@ -30,3 +33,6 @@ class PhoneViewset(viewsets.ModelViewSet):
     
     def partial_update(self, request, *args, **kwargs):
         return super().partial_update(request, *args, **kwargs)
+    
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user)

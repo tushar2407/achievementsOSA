@@ -22,6 +22,9 @@ class RecruiterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recruiter 
         fields = '__all__'
+        extra_kwargs = {
+            'user':{'required':False}
+        }
 
 class SkillSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,8 +35,14 @@ class StaffSerializer(serializers.ModelSerializer):
     class Meta:
         model = Staff 
         fields = '__all__'
+        extra_kwargs = {
+            'user':{'required':False}
+        }
         
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student 
         fields = '__all__'
+        extra_kwargs = {
+            'user':{'required':False}
+        }
