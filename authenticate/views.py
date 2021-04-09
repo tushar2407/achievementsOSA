@@ -12,8 +12,8 @@ class ProfileViewset(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication,]
     permission_classes = [IsAuthenticated,]
 
-    def get_queryset(self, request):
-        return Profile.objects.get(username = request.username)
+    def get_queryset(self):
+        return Profile.objects.get(username = self.request.username)
     
     def partial_update(self, request, pk, *args, **kwargs):
         pk= Profile.objects.get(user = request.user).id
