@@ -174,6 +174,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CORS_ORIGIN_WHITELIST = [
+    "*"]
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
