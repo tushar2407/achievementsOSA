@@ -102,11 +102,101 @@
                 /<id:int> (id of the phone number you want)
         project ` POST, GET, PATCH, DELETE `
             -> PATCH
-                /<id:int>/ (id of the phone number)
+                /<id:int>/ (id of the project)
             -> GET
-                / (returns a list of all phone numbers of the logged-in user)
+                / (returns a list of all projects of the logged-in user)
+                - resposne :
+                    [
+                        {
+                            "id": 1,
+                            "title": "asferf",
+                            "description": "sdfsdf",
+                            "startDate": "2021-06-21",
+                            "endDate": "2021-07-21",
+                            "field": "sdfsdf",
+                            "domain": "werew",
+                            "dateCreated": "2021-04-12T19:41:52.445507+05:30",
+                            "addedBy": 3,
+                            "mentors": [
+                                4
+                            ],
+                            "students": [
+                                1,
+                                2
+                            ],
+                            "tags": [
+                                1,
+                                2
+                            ]
+                        }
+                    ]
             -> GET
-                /<id:int> (id of the phone number you want)
+                /<id:int> (id of the project you want)
+                - response :
+                    {
+                        "id": 1,
+                        "title": "asferf",
+                        "description": "sdfsdf",
+                        "startDate": "2021-06-21",
+                        "endDate": "2021-07-21",
+                        "field": "sdfsdf",
+                        "domain": "werew",
+                        "dateCreated": "2021-04-12T19:41:52.445507+05:30",
+                        "addedBy": 3,
+                        "mentors": [
+                            4
+                        ],
+                        "students": [
+                            1,
+                            2
+                        ],
+                        "tags": [
+                            1,
+                            2
+                        ]
+                    }
+            -> POST
+                - body : 
+                    {
+                        "title": "asferf",
+                        "description": "sdfsdf",
+                        "startDate": "2021-06-21",
+                        "endDate": "2021-07-21",
+                        "field": "sdfsdf",
+                        "domain": "werew",
+                        "mentors": [
+                            4 -> staff ids
+                        ],
+                        "students": [
+                            1,2 -> student ids
+                        ],
+                        "tags": [
+                            1,2 -> tags ids
+                        ]
+                    }
+                - response :
+                    {
+                        "id": 1,
+                        "title": "asferf",
+                        "description": "sdfsdf",
+                        "startDate": "2021-06-21",
+                        "endDate": "2021-07-21",
+                        "field": "sdfsdf",
+                        "domain": "werew",
+                        "dateCreated": "2021-04-12T19:41:52.445507+05:30",
+                        "addedBy": 3,
+                        "mentors": [
+                            4
+                        ],
+                        "students": [
+                            1,
+                            2
+                        ],
+                        "tags": [
+                            1,
+                            2
+                        ]
+                    }
         achievement ` POST, GET, PATCH, DELETE `
             -> PATCH
                 /<id:int>/ (id of the phone number)
