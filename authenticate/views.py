@@ -4,6 +4,7 @@ from authenticate.models import Profile, Phone
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
+from django.http.response import JsonResponse
 # Create your views here.
 
 class ProfileViewset(viewsets.ModelViewSet):
@@ -12,8 +13,10 @@ class ProfileViewset(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication,]
     permission_classes = [IsAuthenticated,]
 
-    def get_queryset(self):
-        return Profile.objects.get(user = self.request.user)
+    def list(self, request, *args, **kwargs):
+        return JsonResponse(
+            ProfileSerializer(Profile.objects.get(user=request.user)).data
+        )
     
     def partial_update(self, request, pk, *args, **kwargs):
         pk= Profile.objects.get(user = request.user).id
@@ -28,7 +31,7 @@ class PhoneViewset(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication,]
     permission_classes = [IsAuthenticated,]
 
-    def get_queryset(self):
+    def get_queryset(self, *args, **kwargs):
         return Phone.objects.filter(user = self.request.user)
     
     def partial_update(self, request, *args, **kwargs):

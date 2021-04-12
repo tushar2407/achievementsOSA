@@ -11,10 +11,53 @@
         profile ` POST, GET, PATCH, DELETE `
             -> PATCH
                 /1/ (will automatically take your profile)
+                - respnse :
+                    {
+                        "id": 1,
+                        "dob": "2020-01-05",
+                        "age": 19,
+                        "designation": 1,
+                        "gender": 2,
+                        "address": "asdas",
+                        "group": "abc",
+                        "user": 2,
+                        "skills": [
+                            1
+                        ]
+                    }
             -> GET
                 /<id:int> (id of the profile)
+                - response :
+                    {
+                        "id": 1,
+                        "dob": "2020-01-05",
+                        "age": 19,
+                        "designation": 1,
+                        "gender": 2,
+                        "address": "asdas",
+                        "group": "abc",
+                        "user": 2,
+                        "skills": [
+                            1
+                        ]
+                    }
             -> GET
                 / (returns the id of the logged-in user)
+                - response : 
+                    {
+                        "id": 1,
+                        "dob": "2020-01-05",
+                        "age": 19,
+                        "designation": 1,
+                        "gender": 2,
+                        "address": "asdas",
+                        "group": "abc",
+                        "user": 2,
+                        "skills": [
+                            1
+                        ]
+                    }
+                
         phone ` POST, GET, PATCH, DELETE `
             -> PATCH
                 /<id:int>/ (id of the phone number)
