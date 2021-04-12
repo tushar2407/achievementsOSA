@@ -1,5 +1,10 @@
 from django.urls import path, include
-from main.views import TagViewSet, ProjectViewset, AchievementViewset
+from main.views import (
+    TagViewSet, 
+    ProjectViewset, 
+    AchievementViewset, 
+    homepage
+)
 from rest_framework import routers
 
 router = routers.DefaultRouter()
@@ -8,5 +13,6 @@ router.register(r'project', ProjectViewset)
 router.register(r'achievement', AchievementViewset)
 
 urlpatterns = [
-    path('api/', include(router.urls)),    
+    path('api/', include(router.urls)),
+    path('homepage/', homepage, name = "homepage")    
 ]

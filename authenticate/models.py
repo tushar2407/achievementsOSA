@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from people.models import Skill
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name = 'profile')
     dob = models.DateField()
     age = models.PositiveSmallIntegerField()
 
