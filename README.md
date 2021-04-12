@@ -297,40 +297,46 @@
     people/api/
         department ` POST, GET, PATCH, DELETE `
             -> PATCH
-                /<id:int>/ (id of the phone number)
+                /<id:int>/ (id of the department)
             -> GET
-                / (returns a list of all phone numbers of the logged-in user)
+                / (returns a list of all departments of the logged-in user)
             -> GET
                 /<id:int> (id of the phone number you want)
         education ` POST, GET, PATCH, DELETE `
             -> PATCH
-                /<id:int>/ (id of the phone number)
+                /<id:int>/ (id of the education)
             -> GET
-                / (returns a list of all phone numbers of the logged-in user)
+                / (returns a list of all educations of the logged-in user)
             -> GET
                 /<id:int> (id of the phone number you want)
         skill ` POST, GET, PATCH, DELETE `
             -> PATCH
-                /<id:int>/ (id of the phone number)
+                /<id:int>/ (id of the skill)
             -> GET
-                / (returns a list of all phone numbers of the logged-in user)
+                / (returns a list of all skills of the logged-in user)
             -> GET
-                /<id:int> (id of the phone number you want)
+                /<id:int> (id of the skill whose name you want)
         staff ` POST, GET, PATCH, DELETE `
             -> PATCH
-                /1/ (will automatically take your profile)
+                /1/ (will automatically take your user)
             -> GET
-                /<id:int> (id of the profile)
+                /<id:int> (id of the staff)
             -> GET
-                / (returns the id of the logged-in user)
+                / (returns the details of the logged-in user)
         student ` POST, GET, PATCH, DELETE `
             -> PATCH
                 /1/ (will automatically take your profile)
             -> GET
                 /<id:int> (id of the student)
             -> GET
-                / (returns the id of the logged-in user)
+                / (returns the details of the logged-in user)
         recruiter ` POST, GET, PATCH, DELETE `
+            -> PATCH
+                /1/ (will automatically take your profile)
+            -> GET
+                /<id:int> (id of the recruiter)
+            -> GET
+                / (returns the details of the logged-in user)
 
 <hr>
 
