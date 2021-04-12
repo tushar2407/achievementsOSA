@@ -46,6 +46,94 @@
                 / (returns a list of all phone numbers of the logged-in user)
             -> GET
                 /<id:int> (id of the phone number you want)
+            -> POST 
+                - body :
+                    {
+                        "title": "somrhtin",
+                        "description": "sdfbos df sdg gdf gdf g",
+                        "institution": "sudbfsd dgdfg",
+                        "achievedDate": "2021-02-01",
+                        "teamMembers": [
+                            2,3,4 -> ids of users
+                        ],
+                        "tags": [
+                            1 -> ids of tags
+                        ]
+                    }
+                - response : 
+                    {
+                        "id": 5,
+                        "title": "somrhtin",
+                        "description": "sdfbos df sdg gdf gdf g",
+                        "technical": false,
+                        "proof": null,
+                        "institution": "sudbfsd dgdfg",
+                        "dateCreated": "2021-04-12T18:36:08.784337+05:30",
+                        "achievedDate": "2021-02-01",
+                        "approved": false,
+                        "approvedBy": null,
+                        "addedBy": 3,
+                        "teamMembers": [
+                            2,
+                            3,
+                            4
+                        ],
+                        "tags": [
+                            1
+                        ]
+                    }
+    main/
+        hompage `GET `
+            - response :
+                {
+                    "student_achievements": [
+                        {
+                            "id": 5,
+                            "title": "somrhtin",
+                            "description": "sdfbos df sdg gdf gdf g",
+                            "technical": false,
+                            "proof": null,
+                            "institution": "sudbfsd dgdfg",
+                            "dateCreated": "2021-04-12T13:06:08.784Z",
+                            "achievedDate": "2021-02-01",
+                            "approved": false,
+                            "approvedBy_id": null,
+                            "addedBy_id": 3,
+                            "teamMembers": [
+                                2,
+                                3,
+                                4
+                            ],
+                            "tags": [
+                                1
+                            ]
+                        }
+                    ],
+                    "staff_achievements": [],
+                    "publications": [
+                        {
+                            "id": 5,
+                            "title": "somrhtin",
+                            "description": "sdfbos df sdg gdf gdf g",
+                            "technical": false,
+                            "proof": null,
+                            "institution": "sudbfsd dgdfg",
+                            "dateCreated": "2021-04-12T13:06:08.784Z",
+                            "achievedDate": "2021-02-01",
+                            "approved": false,
+                            "approvedBy_id": null,
+                            "addedBy_id": 3,
+                             "teamMembers": [
+                                2,
+                                3,
+                                4
+                            ],
+                            "tags": [
+                                1
+                            ]
+                        }
+                    ]
+                }
 
 ## people
     people/api/

@@ -38,7 +38,7 @@ class Staff(models.Model):
     )
     title = models.PositiveSmallIntegerField(choices = TITLE_CHOICES)
 
-    education = models.ManyToManyField(Education, related_name = 'staff')
+    education = models.ManyToManyField(Education, related_name = 'staffs')
 
     def __str__(self):
         return f'{self.user.username} {self.employeeId} {self.designation}'

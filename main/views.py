@@ -23,7 +23,7 @@ class ProjectViewset(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication,]
 
     def get_queryset(self):
-        return Project.objects.get(addedBy = self.request.user)
+        return Project.objects.filter(addedBy = self.request.user)
     
     # def partial_update(self, request, pk, *args, **kwargs):
     #     pk= request.user.id
@@ -33,13 +33,13 @@ class ProjectViewset(viewsets.ModelViewSet):
         serializer.save(addedBy = self.request.user)
 
 class AchievementViewset(viewsets.ModelViewSet):
-    serialzier_class = AchievementSerializer
+    serializer_class = AchievementSerializer
     queryset = Achievement.objects.all()
     permission_classes = [IsAuthenticated,]
     authentication_classes = [TokenAuthentication,]
 
     def get_queryset(self):
-        return Achievement.objects.get(addedBy = self.request.user)
+        return Achievement.objects.filter(addedBy = self.request.user)
     
     # def partial_update(self, request, pk, *args, **kwargs):
     #     pk= request.user.id
@@ -48,12 +48,11 @@ class AchievementViewset(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(addedBy = self.request.user)
 
-@api_view(['GET',])
 def homepage(request):
-    achievements_students = list(Achievement.objects.filter(addedBy__profile__designation = 1).order_by('-dateCreated').values()[:10])
-    achievements_staffs = list(Achievement.objects.filter(addedBy__profile__designation = 2).order_by('-dateCreated').values()[:10])
+    achievements_students = AchievementSerializer(Achievement.objects.filter(addedBy__profile__designation = 1).order_by('-dateCreated')[:10], many=True).data
+    achievements_staffs = AchievementSerializer(Achievement.objects.filter(addedBy__profile__designation = 2).order_by('-dateCreated')[:10], many=True).data
     publication_tags = Tag.objects.filter(Q(title__contains = 'paper') | Q(title__contains = 'publication'))
-    publications = list(Achievement.objects.filter(tags__in = list(publication_tags)).order_by('-dateCreated').values()[:10])
+    publications = AchievementSerializer(Achievement.objects.filter(tags__in = list(publication_tags)).order_by('-dateCreated')[:10], many=True).data
 
     return JsonResponse({
             'student_achievements' : achievements_students,

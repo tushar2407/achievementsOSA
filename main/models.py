@@ -18,7 +18,7 @@ class Achievement(models.Model):
     dateCreated = models.DateTimeField(auto_now_add = True)
     achievedDate = models.DateField()
     approved = models.BooleanField(default = False)
-    approvedBy = models.ForeignKey(Staff, on_delete = models.DO_NOTHING)
+    approvedBy = models.ForeignKey(Staff, on_delete = models.DO_NOTHING, null = True)
     addedBy = models.ForeignKey(User, on_delete = models.DO_NOTHING)
     teamMembers = models.ManyToManyField(User, related_name='achievements')
     tags = models.ManyToManyField(Tag, related_name='achievements')
@@ -27,7 +27,7 @@ class Achievement(models.Model):
         return f'{self.title}'
 
 class Project(models.Model):
-    addedBy = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    addedBy = models.ForeignKey(User, on_delete=models.DO_NOTHING, null = True)
     title = models.CharField(max_length = 256)
     description = models.TextField()
     mentors = models.ManyToManyField(Staff)

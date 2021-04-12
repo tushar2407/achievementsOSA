@@ -12,7 +12,8 @@ class AchievementSerializer(serializers.ModelSerializer):
         model = Achievement
         fields = '__all__'
         extra_kwargs = {
-            'addedBy':{'required':False}
+            'addedBy':{'required':False},
+            'approvedBy':{'required':False}
         }
 
 class ProjectSerializer(serializers.ModelSerializer):
