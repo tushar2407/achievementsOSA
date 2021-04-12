@@ -29,6 +29,9 @@ class Profile(models.Model):
     group = models.CharField(max_length = 256)
     skills = models.ManyToManyField(Skill, related_name='people')
     
+    show_email = models.BooleanField(default = False)
+    show_phone = models.BooleanField(default = False)
+    
     # social media handles
     facebook = models.URLField(null = True)
     instagram = models.URLField(null = True)
