@@ -59,12 +59,37 @@
                     }
                 
         phone ` POST, GET, PATCH, DELETE `
+            -> POST 
+                - body :
+                    {
+                        "number":"910123456789"
+                    }
+                - resposne :
+                    {
+                        "id": 2,
+                        "number": "910123456789",
+                        "user": 3
+                    }
             -> PATCH
                 /<id:int>/ (id of the phone number)
             -> GET
                 / (returns a list of all phone numbers of the logged-in user)
+                - response :
+                    [
+                        {
+                            "id": 2,
+                            "number": "910123456789",
+                            "user": 3
+                        }
+                    ]
             -> GET
                 /<id:int> (id of the phone number you want)
+                - response : 
+                    {
+                        "id": 2,
+                        "number": "910123456789",
+                        "user": 3
+                    }
 
 ## main
     main/api/
