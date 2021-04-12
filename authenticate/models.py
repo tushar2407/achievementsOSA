@@ -24,6 +24,7 @@ class Profile(models.Model):
     )
     gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES)
 
+    profile_pic = models.TextField(null = True)
     address = models.TextField()
     group = models.CharField(max_length = 256)
     skills = models.ManyToManyField(Skill, related_name='people')
