@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication 
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
+from people.models import Staff, Student
 # Create your views here.
 
 class TagViewSet(viewsets.ModelViewSet):
@@ -60,4 +61,26 @@ def homepage(request):
             'publications' : publications
         },
         status = status.HTTP_200_OK
+    )
+
+@api_view(['GET',])
+@permission_classes([IsAuthenticated,])
+@authentication_classes([TokenAuthentication,])
+def get_professors(request):
+    professors = [i['user__email'] for i in Staff.objects.all().values('user__email')]
+    return JsonResponse(
+        {
+            'professors': professors
+        }
+    )
+
+@api_view(['GET',])
+@permission_classes([IsAuthenticated,])
+@authentication_classes([TokenAuthentication,])
+def get_students(request):
+    students = [i['user__email'] for i in Student.objects.all().values('user__email')]
+    return JsonResponse(
+        {
+            'students': students
+        }
     )

@@ -3,7 +3,9 @@ from main.views import (
     TagViewSet, 
     ProjectViewset, 
     AchievementViewset, 
-    homepage
+    homepage,
+    get_professors,
+    get_students
 )
 from rest_framework import routers
 
@@ -14,5 +16,7 @@ router.register(r'achievement', AchievementViewset)
 
 urlpatterns = [
     path('api/', include(router.urls)),
-    path('homepage/', homepage, name = "homepage")    
+    path('homepage/', homepage, name = "homepage"),
+    path('api/get-professors', get_professors),  
+    path('api/get-students', get_students)    
 ]

@@ -293,6 +293,26 @@
                     ]
                 }
 
+    main/
+        api/
+            get-professors `GET`
+            - response: {
+                'professors' : [
+                    '<email1>',
+                    '<email2>',
+                    ...
+                ]
+            }
+        api/    
+            get-students `GET`
+            - response: {
+                'students' : [
+                    '<email1>',
+                    '<email2>',
+                    ...
+                ]
+            }
+
 ## people
     people/api/
         department ` POST, GET, PATCH, DELETE `
