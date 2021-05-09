@@ -298,8 +298,14 @@
             get-professors `GET`
             - response: {
                 'professors' : [
-                    '<email1>',
-                    '<email2>',
+                    {
+                        '<staff_id>',
+                        '<email1>'
+                    },
+                    {
+                        '<staff_id2>',
+                        '<email2>'
+                    },
                     ...
                 ]
             }
@@ -307,8 +313,14 @@
             get-students `GET`
             - response: {
                 'students' : [
-                    '<email1>',
-                    '<email2>',
+                    {
+                        '<user_id>',
+                        '<email1>'
+                    },
+                    {
+                        '<user_id2>',
+                        '<email2>'
+                    },
                     ...
                 ]
             }

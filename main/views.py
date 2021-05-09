@@ -67,7 +67,7 @@ def homepage(request):
 @permission_classes([IsAuthenticated,])
 @authentication_classes([TokenAuthentication,])
 def get_professors(request):
-    professors = [i['user__email'] for i in Staff.objects.all().values('user__email')]
+    professors =  list(Staff.objects.all().values('user__email', 'id'))
     return JsonResponse(
         {
             'professors': professors
@@ -78,7 +78,7 @@ def get_professors(request):
 @permission_classes([IsAuthenticated,])
 @authentication_classes([TokenAuthentication,])
 def get_students(request):
-    students = [i['user__email'] for i in Student.objects.all().values('user__email')]
+    students = list(Student.objects.all().values('user__email', 'user__id'))
     return JsonResponse(
         {
             'students': students

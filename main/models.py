@@ -20,6 +20,7 @@ class Achievement(models.Model):
     approved = models.BooleanField(default = False)
     approvedBy = models.ForeignKey(Staff, on_delete = models.DO_NOTHING, null = True)
     addedBy = models.ForeignKey(User, on_delete = models.DO_NOTHING)
+    mentors = models.ManyToManyField(Staff, related_name='achievements')
     teamMembers = models.ManyToManyField(User, related_name='achievements')
     tags = models.ManyToManyField(Tag, related_name='achievements')
     
