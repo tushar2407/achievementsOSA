@@ -220,6 +220,7 @@
                         "category" : <1,2,3,4,5,6>
                     }
                     // CATEGORY_CHOICES = (
+                        (0, 'NA'),
                         (1,'intra college'), 
                         (2,'inter college'), 
                         (3,'district level'),

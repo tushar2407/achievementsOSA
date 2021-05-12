@@ -24,6 +24,7 @@ class Achievement(models.Model):
     teamMembers = models.ManyToManyField(User, related_name='achievements')
     tags = models.ManyToManyField(Tag, related_name='achievements')
     CATEGORY_CHOICES = (
+        (0, 'NA'),
         (1,'intra college'), 
         (2,'inter college'), 
         (3,'district level'),
