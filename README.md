@@ -95,11 +95,11 @@
     main/api/
         tag ` POST, GET, PATCH, DELETE `
             -> PATCH
-                /<id:int>/ (id of the phone number)
+                /<id:int>/ (id of the tag)
             -> GET
-                / (returns a list of all phone numbers of the logged-in user)
+                / (returns a list of all the tags)
             -> GET
-                /<id:int> (id of the phone number you want)
+                /<id:int> (id of the tag you want)
         project ` POST, GET, PATCH, DELETE `
             -> PATCH
                 /<id:int>/ (id of the project)
