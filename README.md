@@ -216,8 +216,17 @@
                         ],
                         "tags": [
                             1 -> ids of tags
-                        ]
+                        ],
+                        "category" : <1,2,3,4,5,6>
                     }
+                    // CATEGORY_CHOICES = (
+                        (1,'intra college'), 
+                        (2,'inter college'), 
+                        (3,'district level'),
+                        (4,'state level'), 
+                        (5,'national level'), 
+                        (6,'international level')
+                    )
                 - response : 
                     {
                         "id": 5,
