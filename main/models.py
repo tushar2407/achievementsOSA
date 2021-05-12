@@ -23,6 +23,15 @@ class Achievement(models.Model):
     mentors = models.ManyToManyField(Staff, related_name='achievements')
     teamMembers = models.ManyToManyField(User, related_name='achievements')
     tags = models.ManyToManyField(Tag, related_name='achievements')
+    CATEGORY_CHOICES = (
+        (1,'intra college'), 
+        (2,'inter college'), 
+        (3,'district level'),
+        (4,'state level'), 
+        (5,'national level'), 
+        (6,'international level')
+    )
+    category = models.PositiveSmallIntegerField(choices = CATEGORY_CHOICES, default = 1)
     
     def __str__(self):
         return f'{self.title}'
