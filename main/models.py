@@ -3,6 +3,12 @@ from django.contrib.auth.models import User
 # Create your models here.
 from people.models import Student, Staff
 
+class Institution(models.Model):
+    title = models.CharField(max_length = 256, unique = True, null = False)    
+
+    def __str__(self):
+        return f'{self.title}'
+
 class Tag(models.Model):
     title = models.CharField(max_length = 256, unique = True, null = False)    
 
@@ -14,7 +20,7 @@ class Achievement(models.Model):
     description = models.TextField()
     technical = models.BooleanField(default = False)
     proof = models.URLField(null = True)
-    institution = models.TextField()
+    institution = models.ForeignKey(Institution, null = True, blank = True, on_delete=models.CASCADE)
     dateCreated = models.DateTimeField(auto_now_add = True)
     achievedDate = models.DateField()
     approved = models.BooleanField(default = False)

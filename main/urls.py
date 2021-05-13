@@ -3,6 +3,7 @@ from main.views import (
     TagViewSet, 
     ProjectViewset, 
     AchievementViewset, 
+    InstitutionViewset,
     homepage,
     get_professors,
     get_students
@@ -13,6 +14,7 @@ router = routers.DefaultRouter()
 router.register(r'tag', TagViewSet)
 router.register(r'project', ProjectViewset)
 router.register(r'achievement', AchievementViewset)
+router.register(r'institution', InstitutionViewset)
 
 urlpatterns = [
     path('api/', include(router.urls)),

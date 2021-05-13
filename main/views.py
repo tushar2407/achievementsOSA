@@ -1,8 +1,8 @@
 from django.db.models import Q
 from django.http.response import JsonResponse
 from django.shortcuts import render
-from main.serializers import TagSerializer, ProjectSerializer, AchievementSerializer
-from main.models import Tag, Project, Achievement
+from main.serializers import TagSerializer, ProjectSerializer, AchievementSerializer, InstitutionSerializer
+from main.models import Tag, Project, Achievement, Institution
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication 
@@ -14,6 +14,12 @@ from people.models import Staff, Student
 class TagViewSet(viewsets.ModelViewSet):
     serializer_class = TagSerializer
     queryset = Tag.objects.all()
+    permission_classes = [IsAuthenticated,]
+    authentication_classes = [TokenAuthentication,]
+
+class InstitutionViewset(viewsets.ModelViewSet):
+    serializer_class = InstitutionSerializer
+    queryset = Institution.objects.all()
     permission_classes = [IsAuthenticated,]
     authentication_classes = [TokenAuthentication,]
 

@@ -100,6 +100,13 @@
                 / (returns a list of all the tags)
             -> GET
                 /<id:int> (id of the tag you want)
+        institution ` POST, GET, PATCH, DELETE `
+            -> PATCH
+                /<id:int>/ (id of the institution)
+            -> GET
+                / (returns a list of all the institutions)
+            -> GET
+                /<id:int> (id of the institution you want)
         project ` POST, GET, PATCH, DELETE `
             -> PATCH
                 /<id:int>/ (id of the project)
