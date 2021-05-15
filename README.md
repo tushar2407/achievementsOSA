@@ -242,7 +242,7 @@
                         "description": "sdfbos df sdg gdf gdf g",
                         "technical": false,
                         "proof": null,
-                        "institution": "sudbfsd dgdfg",
+                        "institution": <education_id>,
                         "dateCreated": "2021-04-12T18:36:08.784337+05:30",
                         "achievedDate": "2021-02-01",
                         "approved": false,
@@ -255,7 +255,8 @@
                         ],
                         "tags": [
                             1
-                        ]
+                        ],
+                        "category" : <1,2,3,4,5,6>
                     }
     main/
         hompage `GET `
