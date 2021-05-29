@@ -6,7 +6,8 @@ from main.views import (
     InstitutionViewset,
     homepage,
     get_professors,
-    get_students
+    get_students,
+    get_achievements_admin
 )
 from rest_framework import routers
 
@@ -20,5 +21,6 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('homepage/', homepage, name = "homepage"),
     path('api/get-professors', get_professors),  
-    path('api/get-students', get_students)    
+    path('api/get-students', get_students)    ,
+    path('api/get-achievements-admin', get_achievements_admin)
 ]

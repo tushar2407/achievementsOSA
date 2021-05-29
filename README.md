@@ -342,6 +342,29 @@
                     ...
                 ]
             }
+        api/    
+            get-achievements-admin `GET`
+            - response: {
+                'unapproved' : [
+                    {
+                        '<achievement_id>',
+                        '<title>',
+                        '<description>',
+                        '<technical>',
+                        '<proof>',
+                        '<institution>',
+                        '<dateCreated>',
+                        '<achievedDate>',
+                        '<approved>',
+                        '<approvedBy>',
+                        '<addedBy>',
+                        'mentors':[],
+                        'teamMembers':[],
+                        'tags':[],
+                    },
+                    ...
+                ]
+            }
 
 ## people
     people/api/
