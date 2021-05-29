@@ -55,6 +55,7 @@ class Project(models.Model):
     domain = models.CharField(max_length = 256, null = False)
     tags = models.ManyToManyField(Tag, related_name='projects')
     dateCreated = models.DateTimeField(auto_now_add = True)
+    url = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f'{self.title}'
