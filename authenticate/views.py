@@ -13,9 +13,15 @@ class ProfileViewset(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication,]
     permission_classes = [IsAuthenticated,]
 
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+
     def list(self, request, *args, **kwargs):
+        profile = ProfileSerializer(Profile.objects.get(user=request.user)).data
+        profile['name'] = request.first_name+ " " + request.last_name
+        profile['username'] = request.username
         return JsonResponse(
-            ProfileSerializer(Profile.objects.get(user=request.user)).data
+            profile
         )
     
     def partial_update(self, request, pk, *args, **kwargs):
