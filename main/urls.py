@@ -7,7 +7,8 @@ from main.views import (
     homepage,
     get_professors,
     get_students,
-    get_achievements_admin
+    get_achievements_admin,
+    get_projects_admin,
 )
 from rest_framework import routers
 
@@ -22,5 +23,6 @@ urlpatterns = [
     path('homepage/', homepage, name = "homepage"),
     path('api/get-professors', get_professors),  
     path('api/get-students', get_students)    ,
-    path('api/get-achievements-admin', get_achievements_admin)
+    path('api/get-achievements-admin', get_achievements_admin),
+    path('api/get-projects-admin', get_projects_admin)
 ]

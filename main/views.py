@@ -110,3 +110,23 @@ def get_achievements_admin(request):
             'details': 'Not an admin'
         }
     )
+
+@api_view(['GET',])
+@permission_classes([IsAuthenticated,])
+@authentication_classes([TokenAuthentication,])
+def get_projects_admin(request):
+    if request.user.is_admin:
+        # approved = list(Achievement.objects.filter(approved = True))
+        unapproved = list(Project.objects.filter(approved = False))
+        
+        return JsonResponse(
+            {
+                # 'approved': approved,
+                'unapproved': unapproved
+            }
+        )
+    return JsonResponse(
+        {
+            'details': 'Not an admin'
+        }
+    )
