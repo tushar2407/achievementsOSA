@@ -134,7 +134,8 @@
                             "tags": [
                                 1,
                                 2
-                            ]
+                            ],
+                            "url":''
                         }
                     ]
             -> GET
@@ -160,7 +161,8 @@
                         "tags": [
                             1,
                             2
-                        ]
+                        ],
+                        "url":''
                     }
             -> POST
                 - body : 
@@ -179,7 +181,8 @@
                         ],
                         "tags": [
                             1,2 -> tags ids
-                        ]
+                        ],
+                        "url":''
                     }
                 - response :
                     {
@@ -202,7 +205,8 @@
                         "tags": [
                             1,
                             2
-                        ]
+                        ],
+                        "url":''
                     }
         achievement ` POST, GET, PATCH, DELETE `
             -> PATCH
