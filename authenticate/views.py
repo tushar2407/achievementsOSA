@@ -19,7 +19,7 @@ class ProfileViewset(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         profile = ProfileSerializer(Profile.objects.get(user=request.user)).data
         profile['name'] = request.user.first_name+ " " + request.user.last_name
-        profile['username'] = request.username
+        profile['username'] = request.user.username
         return JsonResponse(
             {'profile' : profile}
         )
