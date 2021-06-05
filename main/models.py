@@ -26,9 +26,9 @@ class Achievement(models.Model):
     approved = models.BooleanField(default = False)
     approvedBy = models.ForeignKey(Staff, on_delete = models.DO_NOTHING, null = True)
     addedBy = models.ForeignKey(User, on_delete = models.DO_NOTHING)
-    mentors = models.ManyToManyField(Staff, related_name='achievements')
-    teamMembers = models.ManyToManyField(User, related_name='achievements')
-    tags = models.ManyToManyField(Tag, related_name='achievements')
+    mentors = models.ManyToManyField(Staff, related_name='achievements', blank = True)
+    teamMembers = models.ManyToManyField(User, related_name='achievements', blank = True)
+    tags = models.ManyToManyField(Tag, related_name='achievements', blank = True)
     CATEGORY_CHOICES = (
         (0, 'NA'),
         (1,'intra college'), 
@@ -47,13 +47,13 @@ class Project(models.Model):
     addedBy = models.ForeignKey(User, on_delete=models.DO_NOTHING, null = True)
     title = models.CharField(max_length = 256)
     description = models.TextField()
-    mentors = models.ManyToManyField(Staff)
-    students = models.ManyToManyField(Student)
+    mentors = models.ManyToManyField(Staff, related_name='projects', blank = True)
+    students = models.ManyToManyField(Student, related_name='projects', blank = True)
     startDate = models.DateField()
     endDate = models.DateField()
     field = models.CharField(max_length = 256, null = False)
     domain = models.CharField(max_length = 256, null = False)
-    tags = models.ManyToManyField(Tag, related_name='projects')
+    tags = models.ManyToManyField(Tag, related_name='projects', blank = True)
     dateCreated = models.DateTimeField(auto_now_add = True)
     url = models.TextField(blank=True, null=True)
 
