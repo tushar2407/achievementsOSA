@@ -1,10 +1,22 @@
 from django.contrib import admin
-from main.models import Tag, Achievement, Project
+from main.models import Tag, Achievement, Project, Institution
 # Register your models here.
 
 # admin.site.register(Tag)
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
+
+    list_display = ('title',)
+    search_fields = ('title',)
+    readonly_fields = ('id',)
+    # readonly_fields = ('date_joined', 'last_login')
+
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
+
+@admin.register(Institution)
+class InstitutionAdmin(admin.ModelAdmin):
 
     list_display = ('title',)
     search_fields = ('title',)
