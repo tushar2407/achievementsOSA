@@ -9,6 +9,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 from people.models import Staff, Student
+from authenticate.models import Profile
 # Create your views here.
 
 class TagViewSet(viewsets.ModelViewSet):
@@ -95,7 +96,7 @@ def get_students(request):
 @permission_classes([IsAuthenticated,])
 @authentication_classes([TokenAuthentication,])
 def get_achievements_admin(request):
-    if request.user.is_admin:
+    if Profile.objects.get(user = request.user).is_admin():
         # approved = list(Achievement.objects.filter(approved = True))
         unapproved = list(Achievement.objects.filter(approved = False))
         
@@ -115,7 +116,7 @@ def get_achievements_admin(request):
 @permission_classes([IsAuthenticated,])
 @authentication_classes([TokenAuthentication,])
 def get_projects_admin(request):
-    if request.user.is_admin:
+    if Profile.objects.get(user = request.user).designation.is_admin():
         # approved = list(Achievement.objects.filter(approved = True))
         unapproved = list(Project.objects.filter(approved = False))
         

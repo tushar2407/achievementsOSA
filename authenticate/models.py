@@ -41,6 +41,9 @@ class Profile(models.Model):
     def __str__(self):
         return f'{self.user.username} {str(self.designation)}'
 
+    def is_admin(self):
+        return self.designation==3
+
 class Phone(models.Model):
     phone_regex = RegexValidator(regex=r'^\d{8,13}$', message="Phone number must be entered in the format: '+999999999'. Up to 10 digits allowed.")
     number = models.CharField(verbose_name = 'phone_number',validators=[phone_regex], max_length=13, unique=True, null=False, blank = False)
