@@ -24,19 +24,19 @@ class Profile(models.Model):
     )
     gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES)
 
-    profile_pic = models.TextField(null = True)
-    address = models.TextField()
-    group = models.CharField(max_length = 256)
-    skills = models.ManyToManyField(Skill, related_name='people')
+    profile_pic = models.TextField(null = True, blank = True)
+    address = models.TextField(blank = True)
+    group = models.CharField(max_length = 256, blank = True)
+    skills = models.ManyToManyField(Skill, related_name='people', blank = True)
     
     show_email = models.BooleanField(default = False)
     show_phone = models.BooleanField(default = False)
     
     # social media handles
-    facebook = models.URLField(null = True)
-    instagram = models.URLField(null = True)
-    twitter = models.URLField(null = True)
-    github = models.URLField(null = True)
+    facebook = models.URLField(null = True, blank = True)
+    instagram = models.URLField(null = True, blank = True)
+    twitter = models.URLField(null = True, blank = True)
+    github = models.URLField(null = True, blank = True)
 
     def __str__(self):
         return f'{self.user.username} {str(self.designation)}'

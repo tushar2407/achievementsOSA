@@ -92,7 +92,15 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = '__all__'
         extra_kwargs = {
-            'user':{'required':False}
+            'user':{'required':False},
+            'profile_pic':{'required':False},
+            'address':{'required':False},
+            'group':{'required':False},
+            'skills':{'required':False},
+            'facebook':{'required':False},
+            'instagram':{'required':False},
+            'twitter':{'required':False},
+            'github':{'required':False},
         }
 
 class PhoneSerializer(serializers.ModelSerializer):

@@ -21,6 +21,7 @@ class AchievementSerializer(serializers.ModelSerializer):
             'approvedBy':{'required':False},
             'teamMembers':{'required':False},
             'tags':{'required':False},
+            'mentors':{'required':False},
         }
 
 class ProjectSerializer(serializers.ModelSerializer):
