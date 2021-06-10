@@ -9,8 +9,14 @@ from django.http.response import JsonResponse
 import requests
 from achievements.settings import USER_CREDS_URL
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
+
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
+import json
 # Create your views here.
 
+@csrf_exempt
 def login(request):
 
     if request.method == 'POST':
@@ -18,20 +24,22 @@ def login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        response = requests.post(USER_CREDS_URL, {
+        request = Request(USER_CREDS_URL, urlencode({
             'username': username,
             'password' : password
-        }).json()
+        }).encode())
+        response = json.loads(urlopen(request).read().decode())
 
         if response.get('token'):
             # User exists in main DB
             user = User.objects.get_or_create(
                 username = response['user']['username_osa']
-            )
+            )[0]
+            # print(user)
             profile = ProfileSerializer(
                     Profile.objects.get_or_create(
                         user = user
-                    )
+                    )[0]
                 ).data
             profile['username'] = user.username
             profile['name'] = user.first_name + " " + user.last_name
@@ -39,7 +47,7 @@ def login(request):
 
             return JsonResponse({
                 "profile" : profile,
-                "token" : Token.objects.get_or_create(user = user).token
+                "token" : Token.objects.get_or_create(user = user)[0].key
             })
 
         else:
