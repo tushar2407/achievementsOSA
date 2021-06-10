@@ -4,8 +4,50 @@ from authenticate.models import Profile, Phone
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.models import Token
 from django.http.response import JsonResponse
+import requests
+from achievements.settings import USER_CREDS_URL
+from django.contrib.auth.models import User
 # Create your views here.
+
+def login(request):
+
+    if request.method == 'POST':
+        
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        response = requests.post(USER_CREDS_URL, {
+            'username': username,
+            'password' : password
+        }).json()
+
+        if response.get('token'):
+            # User exists in main DB
+            user = User.objects.get_or_create(
+                username = response['user']['username_osa']
+            )
+            profile = ProfileSerializer(
+                    Profile.objects.get_or_create(
+                        user = user
+                    )
+                ).data
+            profile['username'] = user.username
+            profile['name'] = user.first_name + " " + user.last_name
+            profile['is_admin'] = (profile['designation']==3)
+
+            return JsonResponse({
+                "profile" : profile,
+                "token" : Token.objects.get_or_create(user = user).token
+            })
+
+        else:
+            return JsonResponse(response)
+
+    return JsonResponse({
+        "error": f"{request.method} is not allowed on this endpoint."
+    })
 
 class ProfileViewset(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
