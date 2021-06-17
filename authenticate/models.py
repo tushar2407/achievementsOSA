@@ -6,8 +6,8 @@ from people.models import Skill
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name = 'profile')
-    dob = models.DateField()
-    age = models.PositiveSmallIntegerField()
+    dob = models.DateField(blank = True, null = True)
+    age = models.PositiveSmallIntegerField(blank = True, null = True)
 
     USER_TYPE_CHOICES = (
         (1, 'student'),
@@ -15,18 +15,18 @@ class Profile(models.Model):
         (3, 'admin'),
     )
 
-    designation = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES)
+    designation = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default = 1)
     
     GENDER_CHOICES = (
         (1, 'female'),
         (2, 'male'),
         (3, 'prefer-not-to-say'),
     )
-    gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES)
+    gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES, default = 3)
 
     profile_pic = models.TextField(null = True, blank = True)
-    address = models.TextField(blank = True)
-    group = models.CharField(max_length = 256, blank = True)
+    address = models.TextField(blank = True, null = True)
+    group = models.CharField(max_length = 256, blank = True, null = True)
     skills = models.ManyToManyField(Skill, related_name='people', blank = True)
     
     show_email = models.BooleanField(default = False)
