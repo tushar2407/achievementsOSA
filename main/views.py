@@ -116,7 +116,7 @@ def get_achievements_admin(request):
 @permission_classes([IsAuthenticated,])
 @authentication_classes([TokenAuthentication,])
 def get_projects_admin(request):
-    if Profile.objects.get(user = request.user).designation.is_admin():
+    if Profile.objects.get(user = request.user).is_admin():
         # approved = list(Achievement.objects.filter(approved = True))
         unapproved = list(Project.objects.filter(approved = False))
         
