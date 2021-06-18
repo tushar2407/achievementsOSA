@@ -262,6 +262,12 @@
                         ],
                         "category" : <1,2,3,4,5,6>
                     }
+        search?q=''
+            -> GET
+                - response : {
+                    'achievements': [],
+                    'projects': []
+                }
     main/
         hompage `GET `
             - response :
