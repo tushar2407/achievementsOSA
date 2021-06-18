@@ -16,19 +16,19 @@ class Tag(models.Model):
         return f'{self.title}'
 
 class Achievement(models.Model):
-    title = models.CharField(max_length = 256)
-    description = models.TextField()
-    technical = models.BooleanField(default = False)
-    proof = models.URLField(null = True)
-    institution = models.ForeignKey(Institution, null = True, blank = True, on_delete=models.CASCADE)
-    dateCreated = models.DateTimeField(auto_now_add = True)
-    achievedDate = models.DateField()
-    approved = models.BooleanField(default = False)
-    approvedBy = models.ForeignKey(Staff, on_delete = models.DO_NOTHING, null = True)
     addedBy = models.ForeignKey(User, on_delete = models.DO_NOTHING)
+    approved = models.BooleanField(default = False)
+    approvedBy = models.ForeignKey(Staff, on_delete = models.DO_NOTHING, null = True, blank = True)
+    achievedDate = models.DateField()
+    dateCreated = models.DateTimeField(auto_now_add = True)
+    description = models.TextField()
+    institution = models.ForeignKey(Institution, null = True, blank = True, on_delete=models.CASCADE)
     mentors = models.ManyToManyField(Staff, related_name='achievements', blank = True)
-    teamMembers = models.ManyToManyField(User, related_name='achievements', blank = True)
+    proof = models.URLField(null = True)
     tags = models.ManyToManyField(Tag, related_name='achievements', blank = True)
+    teamMembers = models.ManyToManyField(User, related_name='achievements', blank = True)
+    technical = models.BooleanField(default = False)
+    title = models.CharField(max_length = 256)
     CATEGORY_CHOICES = (
         (0, 'NA'),
         (1,'intra college'), 
@@ -46,17 +46,17 @@ class Achievement(models.Model):
 class Project(models.Model):
     addedBy = models.ForeignKey(User, on_delete=models.DO_NOTHING, null = True)
     approved = models.BooleanField(default = False)
-    approvedBy = models.ForeignKey(Staff, on_delete = models.DO_NOTHING, null = True)
-    title = models.CharField(max_length = 256)
+    approvedBy = models.ForeignKey(Staff, on_delete = models.DO_NOTHING, null = True, blank = True)
+    dateCreated = models.DateTimeField(auto_now_add = True)
     description = models.TextField()
-    mentors = models.ManyToManyField(Staff, related_name='projects', blank = True)
-    students = models.ManyToManyField(Student, related_name='projects', blank = True)
-    startDate = models.DateField()
+    domain = models.CharField(max_length = 256, null = False)
     endDate = models.DateField()
     field = models.CharField(max_length = 256, null = False)
-    domain = models.CharField(max_length = 256, null = False)
+    mentors = models.ManyToManyField(Staff, related_name='projects', blank = True)
+    startDate = models.DateField()
+    students = models.ManyToManyField(Student, related_name='projects', blank = True)
+    title = models.CharField(max_length = 256)
     tags = models.ManyToManyField(Tag, related_name='projects', blank = True)
-    dateCreated = models.DateTimeField(auto_now_add = True)
     url = models.TextField(blank=True, null=True)
 
     def __str__(self):
