@@ -149,7 +149,7 @@ def get_students(request):
 def get_achievements_admin(request):
     if Profile.objects.get(user = request.user).is_admin():
         # approved = list(Achievement.objects.filter(approved = True))
-        unapproved = list(Achievement.objects.filter(approved = False).values.values())
+        unapproved = list(Achievement.objects.filter(approved = False).values())
         
         return JsonResponse(
             {
