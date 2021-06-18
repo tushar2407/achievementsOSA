@@ -50,7 +50,7 @@ class ProjectViewset(viewsets.ModelViewSet):
             i['addedBy'] =  dict(UserSerializer(u).data)
         
             if i['approvedBy']:
-                i['approvedBy'] = StaffSerializer(Staff.objects.get(i['approvedBy'])).data        
+                i['approvedBy'] = StaffSerializer(Staff.objects.get(id = i['approvedBy'])).data        
             
             if i['tags']:
                 i['tags'] = list(map(lambda x : dict(x), TagSerializer(Tag.objects.filter(id__in = i['tags']), many=True).data))
@@ -87,7 +87,7 @@ class AchievementViewset(viewsets.ModelViewSet):
             i['addedBy'] =  dict(UserSerializer(u).data)
         
             if i['approvedBy']:
-                i['approvedBy'] = StaffSerializer(Staff.objects.get(i['approvedBy'])).data        
+                i['approvedBy'] = StaffSerializer(Staff.objects.get(id = i['approvedBy'])).data        
             
             if i['tags']:
                 i['tags'] = list(map(lambda x : dict(x), TagSerializer(Tag.objects.filter(id__in = i['tags']), many=True).data))
