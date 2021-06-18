@@ -52,6 +52,7 @@ class Project(models.Model):
     domain = models.CharField(max_length = 256, null = False)
     endDate = models.DateField()
     field = models.CharField(max_length = 256, null = False)
+    institution  = models.ForeignKey(Institution, null = True, blank = False, on_delete=models.CASCADE)
     mentors = models.ManyToManyField(Staff, related_name='projects', blank = True)
     startDate = models.DateField()
     students = models.ManyToManyField(Student, related_name='projects', blank = True)

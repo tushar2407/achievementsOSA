@@ -40,46 +40,52 @@ class ProjectViewset(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication,]
 
     def retrieve(self, request, pk, *args, **kwargs):
-
         i = ProjectSerializer(get_object_or_404(Project, id = pk)).data
+        
         u = User.objects.get(id = i['addedBy'])
-        i['addedBy'] =  dict(UserSerializer(u).data)
+        i['addedBy'] =  UserSerializer(u).data
     
         if i['approvedBy']:
             i['approvedBy'] = StaffSerializer(Staff.objects.get(id = i['approvedBy'])).data        
         
+        if i['institution']:
+            i['institution'] = InstitutionSerializer(Institution.objects.get(id = i['institution'])).data        
+        
         if i['tags']:
-            i['tags'] = list(map(lambda x : dict(x), TagSerializer(Tag.objects.filter(id__in = i['tags']), many=True).data))
+            i['tags'] = TagSerializer(Tag.objects.filter(id__in = i['tags']), many=True).data
     
         if i['mentors']:
-            i['mentors'] = list(map(lambda x : dict(x), StaffSerializer(Staff.objects.filter(id__in = i['mentors']), many=True).data))
+            i['mentors'] =  StaffSerializer(Staff.objects.filter(id__in = i['mentors']), many=True).data
     
         if i['students']:
-            i['students'] = list(map(lambda x : dict(x), StudentSerializer(Student.objects.filter(id__in = i['teamMembers']), many=True).data))
+            i['students'] = StudentSerializer(Student.objects.filter(id__in = i['teamMembers']), many=True).data
         
         return JsonResponse(i)
     
     def list(self, *args, **kwargs):
-        projects = list(map(lambda x : dict(x), self.serializer_class(Project.objects.filter(addedBy = self.request.user)\
+        projects = self.serializer_class(Project.objects.filter(addedBy = self.request.user)\
             .prefetch_related('tags', 'mentors', 'students')\
-            .select_related('addedBy', 'approvedBy'), many = True).data))
+            .select_related('addedBy', 'approvedBy', 'institution'), many = True).data
 
         for i in projects:
 
             u = User.objects.get(id = i['addedBy'])
-            i['addedBy'] =  dict(UserSerializer(u).data)
+            i['addedBy'] =  UserSerializer(u).data
         
             if i['approvedBy']:
                 i['approvedBy'] = StaffSerializer(Staff.objects.get(id = i['approvedBy'])).data        
             
+            if i['institution']:
+                i['institution'] = InstitutionSerializer(Institution.objects.get(id = i['institution'])).data        
+            
             if i['tags']:
-                i['tags'] = list(map(lambda x : dict(x), TagSerializer(Tag.objects.filter(id__in = i['tags']), many=True).data))
+                i['tags'] = TagSerializer(Tag.objects.filter(id__in = i['tags']), many=True).data
         
             if i['mentors']:
-                i['mentors'] = list(map(lambda x : dict(x), StaffSerializer(Staff.objects.filter(id__in = i['mentors']), many=True).data))
+                i['mentors'] = StaffSerializer(Staff.objects.filter(id__in = i['mentors']), many=True).data
         
             if i['students']:
-                i['students'] = list(map(lambda x : dict(x), StudentSerializer(Student.objects.filter(id__in = i['teamMembers']), many=True).data))
+                i['students'] = StudentSerializer(Student.objects.filter(id__in = i['teamMembers']), many=True).data
         
         return JsonResponse({'projects' : projects})
     
@@ -100,43 +106,49 @@ class AchievementViewset(viewsets.ModelViewSet):
         i = AchievementSerializer(get_object_or_404(Achievement, id = pk)).data
 
         u = User.objects.get(id = i['addedBy'])
-        i['addedBy'] =  dict(UserSerializer(u).data)
+        i['addedBy'] = UserSerializer(u).data
     
         if i['approvedBy']:
             i['approvedBy'] = StaffSerializer(Staff.objects.get(id = i['approvedBy'])).data        
         
+        if i['institution']:
+            i['institution'] = InstitutionSerializer(Institution.objects.get(id = i['institution'])).data        
+        
         if i['tags']:
-            i['tags'] = list(map(lambda x : dict(x), TagSerializer(Tag.objects.filter(id__in = i['tags']), many=True).data))
+            i['tags'] = TagSerializer(Tag.objects.filter(id__in = i['tags']), many=True).data
     
         if i['mentors']:
-            i['mentors'] = list(map(lambda x : dict(x), StaffSerializer(Staff.objects.filter(id__in = i['mentors']), many=True).data))
+            i['mentors'] = StaffSerializer(Staff.objects.filter(id__in = i['mentors']), many=True).data
     
         if i['teamMembers']:
-            i['teamMembers'] = list(map(lambda x : dict(x), UserSerializer(User.objects.filter(id__in = i['teamMembers']), many=True).data))
+            i['teamMembers'] = UserSerializer(User.objects.filter(id__in = i['teamMembers']), many=True).data
 
         return JsonResponse(i)
 
     def list(self, *args, **kwargs):
-        achievements = list(map(lambda x : dict(x), self.serializer_class(Achievement.objects.filter(addedBy = self.request.user)\
+        achievements = self.serializer_class(Achievement.objects.filter(addedBy = self.request.user)\
             .prefetch_related('tags', 'mentors', 'teamMembers')\
-            .select_related('addedBy', 'approvedBy'), many = True).data))
+            .select_related('addedBy', 'approvedBy', 'institution'), many = True).data
 
         for i in achievements:
 
             u = User.objects.get(id = i['addedBy'])
-            i['addedBy'] =  dict(UserSerializer(u).data)
+            i['addedBy'] =  UserSerializer(u).data
         
             if i['approvedBy']:
                 i['approvedBy'] = StaffSerializer(Staff.objects.get(id = i['approvedBy'])).data        
             
+            if i['institution']:
+                i['institution'] = InstitutionSerializer(Institution.objects.get(id = i['institution'])).data        
+            
             if i['tags']:
-                i['tags'] = list(map(lambda x : dict(x), TagSerializer(Tag.objects.filter(id__in = i['tags']), many=True).data))
+                i['tags'] = TagSerializer(Tag.objects.filter(id__in = i['tags']), many=True).data
         
             if i['mentors']:
-                i['mentors'] = list(map(lambda x : dict(x), StaffSerializer(Staff.objects.filter(id__in = i['mentors']), many=True).data))
+                i['mentors'] = StaffSerializer(Staff.objects.filter(id__in = i['mentors']), many=True).data
         
             if i['teamMembers']:
-                i['teamMembers'] = list(map(lambda x : dict(x), UserSerializer(User.objects.filter(id__in = i['teamMembers']), many=True).data))
+                i['teamMembers'] = UserSerializer(User.objects.filter(id__in = i['teamMembers']), many=True).data
         
         return JsonResponse({'achievements' : achievements})
 
