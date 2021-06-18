@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from django.contrib.auth.models import User
+
 from main.models import Tag, Achievement, Project, Institution
 
 class TagSerializer(serializers.ModelSerializer):
@@ -34,3 +36,12 @@ class ProjectSerializer(serializers.ModelSerializer):
             'students':{'required':False},
             'mentors':{'required':False},
         }
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'username',
+            'first_name', 'last_name'
+        )

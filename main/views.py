@@ -1,15 +1,24 @@
+from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http.response import JsonResponse
 from django.shortcuts import render
-from main.serializers import TagSerializer, ProjectSerializer, AchievementSerializer, InstitutionSerializer
-from main.models import Tag, Project, Achievement, Institution
 from rest_framework import viewsets, status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authentication import TokenAuthentication 
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
-from people.models import Staff, Student
+
 from authenticate.models import Profile
+from main.models import Tag, Project, Achievement, Institution
+from main.serializers import (
+    TagSerializer, 
+    ProjectSerializer, 
+    AchievementSerializer, 
+    InstitutionSerializer,
+    UserSerializer
+)
+from people.models import Staff, Student
+from people.serializers import StaffSerializer
 # Create your views here.
 
 class TagViewSet(viewsets.ModelViewSet):
@@ -46,9 +55,30 @@ class AchievementViewset(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated,]
     authentication_classes = [TokenAuthentication,]
 
-    def get_queryset(self):
-        return Achievement.objects.filter(addedBy = self.request.user)
-    
+    def list(self, *args, **kwargs):
+        achievements = list(map(lambda x : dict(x), self.serializer_class(Achievement.objects.filter(addedBy = User.objects.first())\
+            .prefetch_related('tags', 'mentors', 'teamMembers')\
+            .select_related('addedBy', 'approvedBy'), many = True).data))
+
+        for i in achievements:
+
+            u = User.objects.get(id = i['addedBy'])
+            i['addedBy'] =  dict(UserSerializer(u).data)
+        
+            if i['approvedBy']:
+                i['approvedBy'] = StaffSerializer(Staff.objects.get(i['approvedBy'])).data        
+            
+            if i['tags']:
+                i['tags'] = list(map(lambda x : dict(x), TagSerializer(Tag.objects.filter(id__in = i['tags']), many=True).data))
+        
+            if i['mentors']:
+                i['mentors'] = list(map(lambda x : dict(x), StaffSerializer(Staff.objects.filter(id__in = i['mentors']), many=True).data))
+        
+            if i['teamMembers']:
+                i['teamMembers'] = list(map(lambda x : dict(x), UserSerializer(User.objects.filter(id__in = i['teamMembers']), many=True).data))
+        
+        return JsonResponse({'achievements' : achievements})
+
     # def partial_update(self, request, pk, *args, **kwargs):
     #     pk= request.user.id
     #     return super().partial_update(request, pk, *args, **kwargs)
