@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http.response import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authentication import TokenAuthentication 
@@ -39,6 +39,26 @@ class ProjectViewset(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated,]
     authentication_classes = [TokenAuthentication,]
 
+    def retrieve(self, request, pk, *args, **kwargs):
+
+        i = ProjectSerializer(get_object_or_404(Project, id = pk)).data
+        u = User.objects.get(id = i['addedBy'])
+        i['addedBy'] =  dict(UserSerializer(u).data)
+    
+        if i['approvedBy']:
+            i['approvedBy'] = StaffSerializer(Staff.objects.get(id = i['approvedBy'])).data        
+        
+        if i['tags']:
+            i['tags'] = list(map(lambda x : dict(x), TagSerializer(Tag.objects.filter(id__in = i['tags']), many=True).data))
+    
+        if i['mentors']:
+            i['mentors'] = list(map(lambda x : dict(x), StaffSerializer(Staff.objects.filter(id__in = i['mentors']), many=True).data))
+    
+        if i['students']:
+            i['students'] = list(map(lambda x : dict(x), StudentSerializer(Student.objects.filter(id__in = i['teamMembers']), many=True).data))
+        
+        return JsonResponse(i)
+    
     def list(self, *args, **kwargs):
         projects = list(map(lambda x : dict(x), self.serializer_class(Project.objects.filter(addedBy = self.request.user)\
             .prefetch_related('tags', 'mentors', 'students')\
@@ -75,6 +95,26 @@ class AchievementViewset(viewsets.ModelViewSet):
     queryset = Achievement.objects.all()
     permission_classes = [IsAuthenticated,]
     authentication_classes = [TokenAuthentication,]
+
+    def retrieve(self, request, pk, *args, **kwargs):
+        i = AchievementSerializer(get_object_or_404(Achievement, id = pk)).data
+
+        u = User.objects.get(id = i['addedBy'])
+        i['addedBy'] =  dict(UserSerializer(u).data)
+    
+        if i['approvedBy']:
+            i['approvedBy'] = StaffSerializer(Staff.objects.get(id = i['approvedBy'])).data        
+        
+        if i['tags']:
+            i['tags'] = list(map(lambda x : dict(x), TagSerializer(Tag.objects.filter(id__in = i['tags']), many=True).data))
+    
+        if i['mentors']:
+            i['mentors'] = list(map(lambda x : dict(x), StaffSerializer(Staff.objects.filter(id__in = i['mentors']), many=True).data))
+    
+        if i['teamMembers']:
+            i['teamMembers'] = list(map(lambda x : dict(x), UserSerializer(User.objects.filter(id__in = i['teamMembers']), many=True).data))
+
+        return JsonResponse(i)
 
     def list(self, *args, **kwargs):
         achievements = list(map(lambda x : dict(x), self.serializer_class(Achievement.objects.filter(addedBy = self.request.user)\
@@ -182,3 +222,13 @@ def get_projects_admin(request):
             'details': 'Not an admin'
         }
     )
+
+def search(request):
+    query = request.GET['q']
+    achievements = list(Achievement.objects.filter(title__icontains = query).values())
+    projects = list(Project.objects.filter(title__icontains = query).values())
+
+    return JsonResponse({
+        'achievements' : achievements,
+        'projects' : projects,
+    })

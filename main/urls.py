@@ -9,6 +9,7 @@ from main.views import (
     get_students,
     get_achievements_admin,
     get_projects_admin,
+    search
 )
 from rest_framework import routers
 
@@ -24,5 +25,6 @@ urlpatterns = [
     path('api/get-professors', get_professors),  
     path('api/get-students', get_students)    ,
     path('api/get-achievements-admin', get_achievements_admin),
-    path('api/get-projects-admin', get_projects_admin)
+    path('api/get-projects-admin', get_projects_admin),
+    path('api/search', search)
 ]
