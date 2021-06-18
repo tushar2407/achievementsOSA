@@ -18,7 +18,7 @@ from main.serializers import (
     UserSerializer
 )
 from people.models import Staff, Student
-from people.serializers import StaffSerializer
+from people.serializers import StaffSerializer, StudentSerializer
 # Create your views here.
 
 class TagViewSet(viewsets.ModelViewSet):
@@ -39,8 +39,29 @@ class ProjectViewset(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated,]
     authentication_classes = [TokenAuthentication,]
 
-    def get_queryset(self):
-        return Project.objects.filter(addedBy = self.request.user)
+    def list(self, *args, **kwargs):
+        projects = list(map(lambda x : dict(x), self.serializer_class(Project.objects.filter(addedBy = self.request.user)\
+            .prefetch_related('tags', 'mentors', 'students')\
+            .select_related('addedBy', 'approvedBy'), many = True).data))
+
+        for i in projects:
+
+            u = User.objects.get(id = i['addedBy'])
+            i['addedBy'] =  dict(UserSerializer(u).data)
+        
+            if i['approvedBy']:
+                i['approvedBy'] = StaffSerializer(Staff.objects.get(i['approvedBy'])).data        
+            
+            if i['tags']:
+                i['tags'] = list(map(lambda x : dict(x), TagSerializer(Tag.objects.filter(id__in = i['tags']), many=True).data))
+        
+            if i['mentors']:
+                i['mentors'] = list(map(lambda x : dict(x), StaffSerializer(Staff.objects.filter(id__in = i['mentors']), many=True).data))
+        
+            if i['students']:
+                i['students'] = list(map(lambda x : dict(x), StudentSerializer(Student.objects.filter(id__in = i['teamMembers']), many=True).data))
+        
+        return JsonResponse({'projects' : projects})
     
     # def partial_update(self, request, pk, *args, **kwargs):
     #     pk= request.user.id
@@ -56,7 +77,7 @@ class AchievementViewset(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication,]
 
     def list(self, *args, **kwargs):
-        achievements = list(map(lambda x : dict(x), self.serializer_class(Achievement.objects.filter(addedBy = User.objects.first())\
+        achievements = list(map(lambda x : dict(x), self.serializer_class(Achievement.objects.filter(addedBy = self.request.user)\
             .prefetch_related('tags', 'mentors', 'teamMembers')\
             .select_related('addedBy', 'approvedBy'), many = True).data))
 
