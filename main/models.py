@@ -17,7 +17,7 @@ class Tag(models.Model):
 
 class Achievement(models.Model):
     addedBy = models.ForeignKey(User, on_delete = models.DO_NOTHING)
-    approved = models.BooleanField(default = False)
+    approved = models.CharField(max_length = 10, default = "Pending")
     approvedBy = models.ForeignKey(Staff, on_delete = models.DO_NOTHING, null = True, blank = True)
     achievedDate = models.DateField()
     dateCreated = models.DateTimeField(auto_now_add = True)
@@ -45,7 +45,7 @@ class Achievement(models.Model):
 
 class Project(models.Model):
     addedBy = models.ForeignKey(User, on_delete=models.DO_NOTHING, null = True)
-    approved = models.BooleanField(default = False)
+    approved = models.CharField(max_length = 10, default = "Pending")
     approvedBy = models.ForeignKey(Staff, on_delete = models.DO_NOTHING, null = True, blank = True)
     dateCreated = models.DateTimeField(auto_now_add = True)
     description = models.TextField()
