@@ -5,6 +5,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from django.http.response import JsonResponse
+from main.utils import get_achievements_json_format, get_projects_json_format
 # Create your views here.
 
 class ProfileViewset(viewsets.ModelViewSet):
@@ -20,6 +21,9 @@ class ProfileViewset(viewsets.ModelViewSet):
         profile = ProfileSerializer(Profile.objects.get(user=request.user)).data
         profile['name'] = request.user.first_name+ " " + request.user.last_name
         profile['username'] = request.user.username
+        profile['achivements'] = get_achievements_json_format(self.request)
+        profile['projects'] = get_projects_json_format(self.request)
+
         return JsonResponse(
             {'profile' : profile}
         )

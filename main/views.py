@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http.response import JsonResponse
@@ -19,6 +20,8 @@ from main.serializers import (
 )
 from people.models import Staff, Student
 from people.serializers import StaffSerializer, StudentSerializer
+from main.utils import get_achievements_json_format, get_projects_json_format
+
 # Create your views here.
 
 class TagViewSet(viewsets.ModelViewSet):
@@ -63,31 +66,7 @@ class ProjectViewset(viewsets.ModelViewSet):
         return JsonResponse(i)
     
     def list(self, *args, **kwargs):
-        projects = self.serializer_class(Project.objects.filter(addedBy = self.request.user)\
-            .prefetch_related('tags', 'mentors', 'students')\
-            .select_related('addedBy', 'approvedBy', 'institution'), many = True).data
-
-        for i in projects:
-
-            u = User.objects.get(id = i['addedBy'])
-            i['addedBy'] =  UserSerializer(u).data
-        
-            if i['approvedBy']:
-                i['approvedBy'] = StaffSerializer(Staff.objects.get(id = i['approvedBy'])).data        
-            
-            if i['institution']:
-                i['institution'] = InstitutionSerializer(Institution.objects.get(id = i['institution'])).data        
-            
-            if i['tags']:
-                i['tags'] = TagSerializer(Tag.objects.filter(id__in = i['tags']), many=True).data
-        
-            if i['mentors']:
-                i['mentors'] = StaffSerializer(Staff.objects.filter(id__in = i['mentors']), many=True).data
-        
-            if i['students']:
-                i['students'] = StudentSerializer(Student.objects.filter(id__in = i['teamMembers']), many=True).data
-        
-        return JsonResponse({'projects' : projects})
+        return JsonResponse({'projects' : get_projects_json_format(self.request)})
     
     # def partial_update(self, request, pk, *args, **kwargs):
     #     pk= request.user.id
@@ -126,31 +105,7 @@ class AchievementViewset(viewsets.ModelViewSet):
         return JsonResponse(i)
 
     def list(self, *args, **kwargs):
-        achievements = self.serializer_class(Achievement.objects.filter(addedBy = self.request.user)\
-            .prefetch_related('tags', 'mentors', 'teamMembers')\
-            .select_related('addedBy', 'approvedBy', 'institution'), many = True).data
-
-        for i in achievements:
-
-            u = User.objects.get(id = i['addedBy'])
-            i['addedBy'] =  UserSerializer(u).data
-        
-            if i['approvedBy']:
-                i['approvedBy'] = StaffSerializer(Staff.objects.get(id = i['approvedBy'])).data        
-            
-            if i['institution']:
-                i['institution'] = InstitutionSerializer(Institution.objects.get(id = i['institution'])).data        
-            
-            if i['tags']:
-                i['tags'] = TagSerializer(Tag.objects.filter(id__in = i['tags']), many=True).data
-        
-            if i['mentors']:
-                i['mentors'] = StaffSerializer(Staff.objects.filter(id__in = i['mentors']), many=True).data
-        
-            if i['teamMembers']:
-                i['teamMembers'] = UserSerializer(User.objects.filter(id__in = i['teamMembers']), many=True).data
-        
-        return JsonResponse({'achievements' : achievements})
+        return JsonResponse({'achievements' : get_achievements_json_format(self.request)})
 
     # def partial_update(self, request, pk, *args, **kwargs):
     #     pk= request.user.id
@@ -200,12 +155,10 @@ def get_students(request):
 @authentication_classes([TokenAuthentication,])
 def get_achievements_admin(request):
     if Profile.objects.get(user = request.user).is_admin():
-        # approved = list(Achievement.objects.filter(approved = True))
-        unapproved = list(Achievement.objects.filter(approved = False).values())
+        unapproved = list(Achievement.objects.filter(approved = "Pending").values())
         
         return JsonResponse(
             {
-                # 'approved': approved,
                 'unapproved': unapproved
             }
         )
@@ -220,12 +173,10 @@ def get_achievements_admin(request):
 @authentication_classes([TokenAuthentication,])
 def get_projects_admin(request):
     if Profile.objects.get(user = request.user).is_admin():
-        # approved = list(Achievement.objects.filter(approved = True))
-        unapproved = list(Project.objects.filter(approved = False).values())
+        unapproved = list(Project.objects.filter(approved = "Pending").values())
         
         return JsonResponse(
             {
-                # 'approved': approved,
                 'unapproved': unapproved
             }
         )
