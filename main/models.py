@@ -39,6 +39,7 @@ class Achievement(models.Model):
         (6,'international level')
     )
     category = models.PositiveSmallIntegerField(choices = CATEGORY_CHOICES, default = 1)
+    feedback = models.TextField(blank=True, null=True)
     
     def __str__(self):
         return f'{self.title}'
@@ -59,6 +60,7 @@ class Project(models.Model):
     title = models.CharField(max_length = 256)
     tags = models.ManyToManyField(Tag, related_name='projects', blank = True)
     url = models.TextField(blank=True, null=True)
+    feedback = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f'{self.title}'
