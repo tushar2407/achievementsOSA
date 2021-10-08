@@ -66,7 +66,7 @@ class ProjectViewset(viewsets.ModelViewSet):
         return JsonResponse(i)
     
     def list(self, *args, **kwargs):
-        return JsonResponse({'projects' : get_projects_json_format(self.request)})
+        return JsonResponse({'projects' : get_projects_json_format(self.request.user)})
     
     # def partial_update(self, request, pk, *args, **kwargs):
     #     pk= request.user.id
@@ -105,7 +105,7 @@ class AchievementViewset(viewsets.ModelViewSet):
         return JsonResponse(i)
 
     def list(self, *args, **kwargs):
-        return JsonResponse({'achievements' : get_achievements_json_format(self.request)})
+        return JsonResponse({'achievements' : get_achievements_json_format(self.request.user)})
 
     # def partial_update(self, request, pk, *args, **kwargs):
     #     pk= request.user.id

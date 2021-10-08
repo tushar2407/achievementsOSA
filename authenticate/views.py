@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.models import User
 from authenticate.serializers import ProfileSerializer, PhoneSerializer
 from authenticate.models import Profile, Phone
 from rest_framework import viewsets
@@ -15,14 +16,18 @@ class ProfileViewset(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated,]
 
     def retrieve(self, request, *args, **kwargs):
-        return super().retrieve(request, *args, **kwargs)
+        r =  super().retrieve(request, *args, **kwargs)
+        print(r.data, kwargs['pk'])
+        r.data['achievements'] = get_achievements_json_format(User.objects.get(id=kwargs['pk']))
+        r.data['projects'] = get_projects_json_format(User.objects.get(id=kwargs['pk']))
+        return r
 
     def list(self, request, *args, **kwargs):
         profile = ProfileSerializer(Profile.objects.get(user=request.user)).data
         profile['name'] = request.user.first_name+ " " + request.user.last_name
         profile['username'] = request.user.username
-        profile['achivements'] = get_achievements_json_format(self.request)
-        profile['projects'] = get_projects_json_format(self.request)
+        profile['achievements'] = get_achievements_json_format(self.request.user)
+        profile['projects'] = get_projects_json_format(self.request.user)
 
         return JsonResponse(
             {'profile' : profile}

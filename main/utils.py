@@ -10,8 +10,8 @@ from main.serializers import (
 from people.models import Staff, Student
 from people.serializers import StaffSerializer, StudentSerializer
 
-def get_achievements_json_format(request):
-    achievements = AchievementSerializer(Achievement.objects.filter(addedBy = request.user)\
+def get_achievements_json_format(user):
+    achievements = AchievementSerializer(Achievement.objects.filter(addedBy = user)\
             .prefetch_related('tags', 'mentors', 'teamMembers')\
             .select_related('addedBy', 'approvedBy', 'institution'), many = True).data
 
@@ -37,8 +37,8 @@ def get_achievements_json_format(request):
         
         return achievements
 
-def get_projects_json_format(request):
-    projects = ProjectSerializer(Project.objects.filter(addedBy = request.user)\
+def get_projects_json_format(user):
+    projects = ProjectSerializer(Project.objects.filter(addedBy = user)\
             .prefetch_related('tags', 'mentors', 'students')\
             .select_related('addedBy', 'approvedBy', 'institution'), many = True).data
 
