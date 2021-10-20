@@ -24,7 +24,7 @@ class Achievement(models.Model):
     description = models.TextField()
     institution = models.ForeignKey(Institution, null = True, blank = True, on_delete=models.CASCADE)
     mentors = models.ManyToManyField(Staff, related_name='achievements', blank = True)
-    proof = models.URLField(null = True)
+    proof = models.URLField(null = True, max_length=1000)
     tags = models.ManyToManyField(Tag, related_name='achievements', blank = True)
     teamMembers = models.ManyToManyField(User, related_name='achievements', blank = True)
     technical = models.BooleanField(default = False)
