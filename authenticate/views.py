@@ -17,9 +17,11 @@ class ProfileViewset(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         r =  super().retrieve(request, *args, **kwargs)
-        print(r.data, kwargs['pk'])
-        r.data['achievements'] = get_achievements_json_format(User.objects.get(id=kwargs['pk']))
-        r.data['projects'] = get_projects_json_format(User.objects.get(id=kwargs['pk']))
+        user = User.objects.get(id=kwargs['pk'])
+        r.data['name'] = user.first_name+ " " + user.last_name
+        r.data['username'] = user.username
+        r.data['achievements'] = get_achievements_json_format(user)
+        r.data['projects'] = get_projects_json_format(user)
         return r
 
     def list(self, request, *args, **kwargs):
