@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import django_heroku
+# from dotenv import load_env
+# load_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -110,17 +112,6 @@ DATABASES = {
 }
 
 SOCIALACCOUNT_PROVIDERS = {
-    # "google": {
-        # For each OAuth based provider, either add a ``SocialApp``
-        # (``socialaccount`` app) containing the required client
-        # credentials, or list them here:
-        # nothing
-    #     "APP": {
-    #         "client_id": "855863861884-6i9llirq1j8jakhdulsa7c6crmgf2k3i.apps.googleusercontent.com",
-    #         "secret": "d0OK6ojzoHS2fiuv0adL4fEL",
-    #         "key": "",
-    #     }
-    # }
     'google': {
         'SCOPE': [
             'profile',
@@ -198,5 +189,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 LOGOUT_ON_PASSWORD_CHANGE = True
+
+USER_CREDS_URL = 'http://localhost:8080/token-auth/'
 
 django_heroku.settings(locals())

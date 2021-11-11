@@ -6,8 +6,8 @@ from people.models import Skill
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name = 'profile')
-    dob = models.DateField(blank = True, null = True)
-    age = models.PositiveSmallIntegerField(blank = True, null = True)
+    dob = models.DateField(null = True, blank = True)
+    age = models.PositiveSmallIntegerField(default = 18)
 
     USER_TYPE_CHOICES = (
         (1, 'student'),
