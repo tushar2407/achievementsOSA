@@ -4,12 +4,13 @@ from django.db.models import Q
 from django.http.response import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, status
-from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authentication import TokenAuthentication 
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from authenticate.models import Profile
+from authenticate.serializers import ProfileSerializer
 from main.models import Tag, Project, Achievement, Institution
 from main.serializers import (
     TagSerializer, 
@@ -18,9 +19,9 @@ from main.serializers import (
     InstitutionSerializer,
     UserSerializer
 )
+from main.utils import get_achievements_json_format, get_projects_json_format
 from people.models import Staff, Student
 from people.serializers import StaffSerializer, StudentSerializer
-from main.utils import get_achievements_json_format, get_projects_json_format
 
 # Create your views here.
 
@@ -43,7 +44,7 @@ class ProjectViewset(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication,]
 
     def retrieve(self, request, pk, *args, **kwargs):
-        i = ProjectSerializer(get_object_or_404(Project, id = pk)).data
+        i = self.serializer_class(get_object_or_404(Project, id = pk)).data
         
         u = User.objects.get(id = i['addedBy'])
         i['addedBy'] =  UserSerializer(u).data
@@ -82,10 +83,11 @@ class AchievementViewset(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication,]
 
     def retrieve(self, request, pk, *args, **kwargs):
-        i = AchievementSerializer(get_object_or_404(Achievement, id = pk)).data
+        i = self.serializer_class(get_object_or_404(Achievement, id = pk)).data
 
         u = User.objects.get(id = i['addedBy'])
-        i['addedBy'] = UserSerializer(u).data
+        # i['addedBy'] = UserSerializer(u).data
+        i['addedBy'] = ProfileSerializer(Profile.objects.get(user=u)).data
     
         if i['approvedBy']:
             i['approvedBy'] = StaffSerializer(Staff.objects.get(id = i['approvedBy'])).data        

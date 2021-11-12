@@ -1,18 +1,19 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from authenticate.serializers import ProfileSerializer, PhoneSerializer
-from authenticate.models import Profile, Phone
+from django.http.response import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
-from django.http.response import JsonResponse
-from main.utils import get_achievements_json_format, get_projects_json_format
-import requests
-from achievements.settings import USER_CREDS_URL
-from django.contrib.auth.models import User
-from django.views.decorators.csrf import csrf_exempt
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
+from achievements.settings import USER_CREDS_URL
+from authenticate.models import Profile, Phone
+from authenticate.serializers import ProfileSerializer, PhoneSerializer
+from main.utils import get_achievements_json_format, get_projects_json_format
+
+import requests
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 import json
@@ -66,8 +67,8 @@ class ProfileViewset(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated,]
 
     def retrieve(self, request, *args, **kwargs):
-        r =  super().retrieve(request, *args, **kwargs)
         user = User.objects.get(id=kwargs['pk'])
+        r  = Response(data = self.serializer_class(Profile.objects.get(user=user)).data)
         r.data['name'] = user.first_name+ " " + user.last_name
         r.data['username'] = user.username
         r.data['achievements'] = get_achievements_json_format(user)
@@ -75,7 +76,7 @@ class ProfileViewset(viewsets.ModelViewSet):
         return r
 
     def list(self, request, *args, **kwargs):
-        profile = ProfileSerializer(Profile.objects.get(user=request.user)).data
+        profile = self.serializer_class(Profile.objects.get(user=request.user)).data
         profile['name'] = request.user.first_name+ " " + request.user.last_name
         profile['username'] = request.user.username
         profile['achievements'] = get_achievements_json_format(self.request.user)
