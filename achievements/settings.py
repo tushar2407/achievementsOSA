@@ -191,5 +191,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 LOGOUT_ON_PASSWORD_CHANGE = True
 
 USER_CREDS_URL = 'http://localhost:8080/token-auth/'
+# USER_CREDS_URL = 'https://auth.osa.iiitd.edu.in/token-auth/'
 
 django_heroku.settings(locals())

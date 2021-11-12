@@ -3,6 +3,7 @@
 > ## ** *Endpoints* **
 
 ## Authentication
+    auth/login/ `POST`
     rest-auth/login/ `POST`
     rest-auth/registration/ `POST`
 

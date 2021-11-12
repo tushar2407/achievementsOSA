@@ -39,7 +39,7 @@ class Profile(models.Model):
     github = models.URLField(null = True, blank = True)
 
     def __str__(self):
-        return f'{self.user.username} {str(self.designation)}'
+        return f'{self.user.username} {str(self.designation)} {self.id}'
 
     def is_admin(self):
         return self.designation==3
