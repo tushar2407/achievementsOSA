@@ -86,8 +86,8 @@ class AchievementViewset(viewsets.ModelViewSet):
         i = self.serializer_class(get_object_or_404(Achievement, id = pk)).data
 
         u = User.objects.get(id = i['addedBy'])
-        # i['addedBy'] = UserSerializer(u).data
-        i['addedBy'] = ProfileSerializer(Profile.objects.get(user=u)).data
+        i['addedBy'] = UserSerializer(u).data
+        # i['addedBy'] = ProfileSerializer(Profile.objects.get(user=u)).data
     
         if i['approvedBy']:
             i['approvedBy'] = StaffSerializer(Staff.objects.get(id = i['approvedBy'])).data        
