@@ -213,7 +213,7 @@ def get_graph_data(request):
     }
     years = list(range(2000,datetime.now().year))
     achievements_year = {
-        year : achievements.filter(achieved_date__year = year) for year in years
+        year : AchievementSerializer(achievements.filter(achieved_date__year = year), many=True).data for year in years
     }
 
     return JsonResponse({
