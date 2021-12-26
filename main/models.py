@@ -2,7 +2,15 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 from people.models import Student, Staff
-
+CATEGORY_CHOICES = (
+    (0, 'NA'),
+    (1,'intra college'), 
+    (2,'inter college'), 
+    (3,'district level'),
+    (4,'state level'), 
+    (5,'national level'), 
+    (6,'international level')
+)
 class Institution(models.Model):
     title = models.CharField(max_length = 256, unique = True, null = False)    
 
@@ -29,15 +37,7 @@ class Achievement(models.Model):
     teamMembers = models.ManyToManyField(User, related_name='achievements', blank = True)
     technical = models.BooleanField(default = False)
     title = models.CharField(max_length = 256)
-    CATEGORY_CHOICES = (
-        (0, 'NA'),
-        (1,'intra college'), 
-        (2,'inter college'), 
-        (3,'district level'),
-        (4,'state level'), 
-        (5,'national level'), 
-        (6,'international level')
-    )
+    
     category = models.PositiveSmallIntegerField(choices = CATEGORY_CHOICES, default = 1)
     feedback = models.TextField(blank=True, null=True)
     

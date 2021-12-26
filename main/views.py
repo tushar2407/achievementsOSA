@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.http import response
 from django.http.response import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, status
@@ -11,7 +12,13 @@ from rest_framework.response import Response
 
 from authenticate.models import Profile
 from authenticate.serializers import ProfileSerializer
-from main.models import Tag, Project, Achievement, Institution
+from main.models import (
+    Tag, 
+    Project, 
+    Achievement, 
+    Institution,
+    CATEGORY_CHOICES,
+)
 from main.serializers import (
     TagSerializer, 
     ProjectSerializer, 
@@ -23,6 +30,7 @@ from main.utils import get_achievements_json_format, get_projects_json_format
 from people.models import Staff, Student
 from people.serializers import StaffSerializer, StudentSerializer
 
+from datetime import datetime 
 # Create your views here.
 
 class TagViewSet(viewsets.ModelViewSet):
@@ -196,4 +204,19 @@ def search(request):
     return JsonResponse({
         'achievements' : achievements,
         'projects' : projects,
+    })
+
+def get_graph_data(request):
+    achievements = Achievement.objects.all()
+    achievements_category = {
+        k[1] : AchievementSerializer(achievements.filter(category = k[0]), many=True).data for k in CATEGORY_CHOICES
+    }
+    years = list(range(2000,datetime.now().year))
+    achievements_year = {
+        year : achievements.filter(achieved_date__year = year) for year in years
+    }
+
+    return JsonResponse({
+        'category' : achievements_category,
+        'year' : achievements_year
     })

@@ -1,14 +1,15 @@
 from django.urls import path, include
 from main.views import (
-    TagViewSet, 
-    ProjectViewset, 
     AchievementViewset, 
     InstitutionViewset,
-    homepage,
+    ProjectViewset, 
+    TagViewSet, 
+    get_graph_data,
     get_professors,
     get_students,
     get_achievements_admin,
     get_projects_admin,
+    homepage,
     search
 )
 from rest_framework import routers
@@ -26,5 +27,6 @@ urlpatterns = [
     path('api/get-students', get_students)    ,
     path('api/get-achievements-admin', get_achievements_admin),
     path('api/get-projects-admin', get_projects_admin),
-    path('api/search', search)
+    path('api/search', search),
+    path('api/graph', get_graph_data),
 ]
