@@ -269,6 +269,13 @@
                     'achievements': [],
                     'projects': []
                 }
+        graph
+            -> GET
+                - response : {
+                    'achievements_category' : [],
+                    'achievements_year' : [],
+                    'projects_year' : [],
+                }
     main/
         hompage `GET `
             - response :
