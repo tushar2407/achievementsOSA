@@ -71,6 +71,7 @@ class ProfileViewset(viewsets.ModelViewSet):
         r  = Response(data = self.serializer_class(Profile.objects.get(user=user)).data)
         r.data['name'] = user.first_name+ " " + user.last_name
         r.data['username'] = user.username
+        r.data['email'] = user.email
         r.data['achievements'] = get_achievements_json_format(user)
         r.data['projects'] = get_projects_json_format(user)
         return r
@@ -79,6 +80,7 @@ class ProfileViewset(viewsets.ModelViewSet):
         profile = self.serializer_class(Profile.objects.get(user=request.user)).data
         profile['name'] = request.user.first_name+ " " + request.user.last_name
         profile['username'] = request.user.username
+        profile['email'] = request.user.email
         profile['achievements'] = get_achievements_json_format(self.request.user)
         profile['projects'] = get_projects_json_format(self.request.user)
 
