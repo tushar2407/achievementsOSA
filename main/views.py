@@ -213,10 +213,15 @@ def get_graph_data(request):
     }
     years = list(range(2000,datetime.now().year))
     achievements_year = {
-        year : AchievementSerializer(achievements.filter(achieved_date__year = year), many=True).data for year in years
+        year : AchievementSerializer(achievements.filter(achievedDate__year = year), many=True).data for year in years
+    }
+    projects = Project.objects.all()
+    projects_year = {
+        year : ProjectSerializer(projects.filter(endDate__year = year), many=True).data for year in years
     }
 
     return JsonResponse({
-        'category' : achievements_category,
-        'year' : achievements_year
+        'achievements_category' : achievements_category,
+        'achievements_year' : achievements_year,
+        'projects_year' : projects_year
     })
