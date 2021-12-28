@@ -15,7 +15,7 @@ class Profile(models.Model):
         (3, 'admin'),
     )
 
-    designation = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default = 1)
+    designation = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=1)
     
     GENDER_CHOICES = (
         (1, 'female'),

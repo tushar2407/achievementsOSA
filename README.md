@@ -91,6 +91,18 @@
                         "number": "910123456789",
                         "user": 3
                     }
+        approve-users `POST, GET`
+            -> GET
+                - response :
+                    {
+                        'profiles' : []
+                    }
+            -> POST
+                - body : 
+                    {
+                        'user' : <id>
+                    }
+                - response : {}
 
 ## main
     main/api/
