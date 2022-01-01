@@ -12,8 +12,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import django_heroku
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,8 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'wk$b9u3m=hcs7j0pb7k&1$)3p+cz_2qb9761*%o-yf4$hez-)8'
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = 'wk$b9u3m=hcs7j0pb7k&1$)3p+cz_2qb9761*%o-yf4$hez-)8'
+# SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -104,14 +104,14 @@ WSGI_APPLICATION = 'achievements.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE':'django.db.backends.postgresql_psycopg2',
-        # 'NAME':'d604nbeqcba3je',
-        # 'USER':'laxifgvyftmugc',
-        # 'PASSWORD':'28cf8fefa9f69a00946daba695c90ce45e6187306ccfcf35d4158144ec303d16',
-        # 'HOST':'ec2-23-21-229-200.compute-1.amazonaws.com',
-        'NAME':os.getenv('DB_NAME'),
-        'USER':os.getenv('DB_USER'),
-        'PASSWORD':os.getenv('DB_USER_PASS'),
-        'HOST':'127.0.0.1',
+        'NAME':'d604nbeqcba3je',
+        'USER':'laxifgvyftmugc',
+        'PASSWORD':'28cf8fefa9f69a00946daba695c90ce45e6187306ccfcf35d4158144ec303d16',
+        'HOST':'ec2-23-21-229-200.compute-1.amazonaws.com',
+        # 'NAME':os.getenv('DB_NAME'),
+        # 'USER':os.getenv('DB_USER'),
+        # 'PASSWORD':os.getenv('DB_USER_PASS'),
+        # 'HOST':'127.0.0.1',
         'PORT':'5432',
     }
 }
@@ -197,7 +197,7 @@ LOGOUT_ON_PASSWORD_CHANGE = True
 USER_CREDS_URL = 'http://localhost:8080/token-auth/'
 # USER_CREDS_URL = 'https://auth.osa.iiitd.edu.in/token-auth/'
 # AUTHENTICATION_OSA_URL = os.getenv('AUTHENTICATION_OSA_URL')
-# AUTHENTICATION_USER_OSA_URL = 'https://osa.iiitd.edu.in/core/current_user/'
-AUTHENTICATION_USER_OSA_URL = os.getenv('AUTHENTICATION_USER_OSA_URL')
+AUTHENTICATION_USER_OSA_URL = 'https://osa.iiitd.edu.in/core/current_user/'
+# AUTHENTICATION_USER_OSA_URL = os.getenv('AUTHENTICATION_USER_OSA_URL')
 
 django_heroku.settings(locals())
