@@ -1,4 +1,4 @@
-from rest_framework import serializers
+from rest_framework import serializers, validators
 
 from django.contrib.auth.models import User
 
@@ -57,6 +57,17 @@ class UserSerializer(serializers.ModelSerializer):
         )
 
 class EducationSerializer(serializers.ModelSerializer):
+
+    def run_validators(self, value):
+        for validator in self.validators:
+            if isinstance(validator, validators.UniqueTogetherValidator):
+                self.validators.remove(validator)
+        super(EducationSerializer, self).run_validators(value)
+
+    def create(self, validated_data):
+        instance, _ = Education.objects.get_or_create(**validated_data)
+        return instance
+
     class Meta:
         model = Education 
         fields = '__all__'
