@@ -1,5 +1,15 @@
 from django.contrib import admin
-from main.models import Tag, Achievement, Project, Institution
+from main.models import (
+    Tag,
+    Achievement, 
+    Project, 
+    Institution,
+    Skill,
+    Education,
+    Staff,
+    Student,
+    Recruiter
+)
 # Register your models here.
 
 # admin.site.register(Tag)
@@ -60,3 +70,9 @@ class AchievementAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         queryset = super(AchievementAdmin, self).get_queryset(request)
         return queryset.order_by('-dateCreated')
+
+admin.site.register(Skill)
+admin.site.register(Education)
+admin.site.register(Staff)
+admin.site.register(Student)
+admin.site.register(Recruiter)

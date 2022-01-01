@@ -1,14 +1,21 @@
 from django.contrib.auth.models import User
-from main.models import Tag, Project, Achievement, Institution
+from main.models import (
+    Tag, 
+    Project, 
+    Achievement, 
+    Institution,
+    Staff, 
+    Student
+)
 from main.serializers import (
     TagSerializer, 
     ProjectSerializer, 
     AchievementSerializer, 
     InstitutionSerializer,
-    UserSerializer
+    UserSerializer,
+    StaffSerializer, 
+    StudentSerializer,
 )
-from people.models import Staff, Student
-from people.serializers import StaffSerializer, StudentSerializer
 
 def get_achievements_json_format(user):
     achievements = AchievementSerializer(Achievement.objects.filter(addedBy = user)\

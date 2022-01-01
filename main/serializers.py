@@ -2,7 +2,17 @@ from rest_framework import serializers
 
 from django.contrib.auth.models import User
 
-from main.models import Tag, Achievement, Project, Institution
+from main.models import (
+    Tag,
+    Achievement, 
+    Project, 
+    Institution,
+    Skill,
+    Education,
+    Staff,
+    Student,
+    Recruiter
+)
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
@@ -45,3 +55,37 @@ class UserSerializer(serializers.ModelSerializer):
             'username',
             'first_name', 'last_name'
         )
+
+class EducationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Education 
+        fields = '__all__'
+
+class RecruiterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Recruiter 
+        fields = '__all__'
+        extra_kwargs = {
+            'user':{'required':False}
+        }
+
+class SkillSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Skill 
+        fields = '__all__'
+
+class StaffSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Staff 
+        fields = '__all__'
+        extra_kwargs = {
+            'user':{'required':False}
+        }
+        
+class StudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student 
+        fields = '__all__'
+        extra_kwargs = {
+            'user':{'required':False}
+        }

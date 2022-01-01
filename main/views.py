@@ -17,6 +17,11 @@ from main.models import (
     Project, 
     Achievement, 
     Institution,
+    Skill,
+    Education,
+    Staff,
+    Student,
+    Recruiter,
     CATEGORY_CHOICES,
 )
 from main.serializers import (
@@ -24,11 +29,14 @@ from main.serializers import (
     ProjectSerializer, 
     AchievementSerializer, 
     InstitutionSerializer,
-    UserSerializer
+    UserSerializer,
+    EducationSerializer,
+    RecruiterSerializer,
+    SkillSerializer,
+    StaffSerializer, 
+    StudentSerializer,
 )
 from main.utils import get_achievements_json_format, get_projects_json_format
-from people.models import Staff, Student
-from people.serializers import StaffSerializer, StudentSerializer
 
 from datetime import datetime 
 # Create your views here.
@@ -123,6 +131,66 @@ class AchievementViewset(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         serializer.save(addedBy = self.request.user)
+
+class EducationViewset(viewsets.ModelViewSet):
+    serializer_class = EducationSerializer 
+    queryset = Education.objects.all()
+    permission_classes = [IsAuthenticated,]
+    authentication_classes = [TokenAuthentication,]
+
+class SkillViewset(viewsets.ModelViewSet):
+    serializer_class = SkillSerializer 
+    queryset = Skill.objects.all()
+    permission_classes = [IsAuthenticated,]
+    authentication_classes = [TokenAuthentication,]
+
+class StaffViewset(viewsets.ModelViewSet):
+    serializer_class = StaffSerializer 
+    queryset = Staff.objects.all()
+    permission_classes = [IsAuthenticated,]
+    authentication_classes = [TokenAuthentication,]
+
+    def get_queryset(self):
+        return Staff.objects.filter(user = self.request.user)
+    
+    def partial_update(self, request, pk, *args, **kwargs):
+        pk = Staff.objects.get(user = request.user).id
+        return super().partial_update(request, pk, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user)
+
+class StudentViewset(viewsets.ModelViewSet):
+    serializer_class = StudentSerializer 
+    queryset = Student.objects.all()
+    permission_classes = [IsAuthenticated,]
+    authentication_classes = [TokenAuthentication,]
+
+    def get_queryset(self):
+        return Student.objects.filter(user = self.request.user)
+    
+    def partial_update(self, request, pk, *args, **kwargs):
+        pk= Student.objects.get(user = request.user).id
+        return super().partial_update(request, pk, *args, **kwargs)
+    
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user)
+
+class RecruiterViewset(viewsets.ModelViewSet):
+    serializer_class = RecruiterSerializer
+    queryset = Recruiter.objects.all()
+    permission_classes = [IsAuthenticated,]
+    authentication_classes = [TokenAuthentication,]
+
+    def get_queryset(self):
+        return Recruiter.objects.filter(user = self.request.user)
+    
+    def partial_update(self, request, pk, *args, **kwargs):
+        pk= Recruiter.objects.get(user = request.user).id
+        return super().partial_update(request, pk, *args, **kwargs)
+    
+    def perform_create(self, serializer):
+        serializer.save(user = self.request.user)
 
 def homepage(request):
     achievements_students = AchievementSerializer(Achievement.objects.filter(addedBy__profile__designation = 1).order_by('-dateCreated')[:10], many=True).data

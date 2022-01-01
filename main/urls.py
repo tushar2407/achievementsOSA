@@ -4,6 +4,11 @@ from main.views import (
     InstitutionViewset,
     ProjectViewset, 
     TagViewSet, 
+    EducationViewset,
+    SkillViewset,
+    StaffViewset,
+    StudentViewset,
+    RecruiterViewset,
     get_graph_data,
     get_professors,
     get_students,
@@ -19,6 +24,11 @@ router.register(r'tag', TagViewSet)
 router.register(r'project', ProjectViewset)
 router.register(r'achievement', AchievementViewset)
 router.register(r'institution', InstitutionViewset)
+router.register(r'education', EducationViewset)
+router.register(r'skill', SkillViewset)
+router.register(r'staff', StaffViewset)
+router.register(r'student', StudentViewset)
+router.register(r'recruiter', RecruiterViewset)
 
 urlpatterns = [
     path('api/', include(router.urls)),

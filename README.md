@@ -276,6 +276,42 @@
                         ],
                         "category" : <1,2,3,4,5,6>
                     }
+        education ` POST, GET, PATCH, DELETE `
+            -> PATCH
+                /<id:int>/ (id of the education)
+            -> GET
+                / (returns a list of all educations of the logged-in user)
+            -> GET
+                /<id:int> (id of the education you want)
+        skill ` POST, GET, PATCH, DELETE `
+            -> PATCH
+                /<id:int>/ (id of the skill)
+            -> GET
+                / (returns a list of all skills of the logged-in user)
+            -> GET
+                /<id:int> (id of the skill whose name you want)
+        staff ` POST, GET, PATCH, DELETE `
+            -> PATCH
+                /1/ (will automatically take your user)
+            -> GET
+                /<id:int> (id of the staff)
+            -> GET
+                / (returns the details of the logged-in user)
+        student ` POST, GET, PATCH, DELETE `
+            -> PATCH
+                /1/ (will automatically take your profile)
+            -> GET
+                /<id:int> (id of the student)
+            -> GET
+                / (returns the details of the logged-in user)
+        recruiter ` POST, GET, PATCH, DELETE `
+            -> PATCH
+                /1/ (will automatically take your profile)
+            -> GET
+                /<id:int> (id of the recruiter)
+            -> GET
+                / (returns the details of the logged-in user)
+
         search?q=''
             -> GET
                 - response : {
@@ -289,6 +325,56 @@
                     'achievements_year' : [],
                     'projects_year' : [],
                 }
+        get-professors `GET`
+            - response: {
+                'professors' : [
+                    {
+                        '<staff_id>',
+                        '<email1>'
+                    },
+                    {
+                        '<staff_id2>',
+                        '<email2>'
+                    },
+                    ...
+                ]
+            }
+        get-students `GET`
+            - response: {
+                'students' : [
+                    {
+                        '<user_id>',
+                        '<email1>'
+                    },
+                    {
+                        '<user_id2>',
+                        '<email2>'
+                    },
+                    ...
+                ]
+            }
+         get-achievements-admin `GET`
+            - response: {
+                'unapproved' : [
+                    {
+                        '<achievement_id>',
+                        '<title>',
+                        '<description>',
+                        '<technical>',
+                        '<proof>',
+                        '<institution>',
+                        '<dateCreated>',
+                        '<achievedDate>',
+                        '<approved>',
+                        '<approvedBy>',
+                        '<addedBy>',
+                        'mentors':[],
+                        'teamMembers':[],
+                        'tags':[],
+                    },
+                    ...
+                ]
+            }
     main/
         hompage `GET `
             - response :
@@ -341,100 +427,7 @@
                         }
                     ]
                 }
-
-    main/
-        api/
-            get-professors `GET`
-            - response: {
-                'professors' : [
-                    {
-                        '<staff_id>',
-                        '<email1>'
-                    },
-                    {
-                        '<staff_id2>',
-                        '<email2>'
-                    },
-                    ...
-                ]
-            }
-        api/    
-            get-students `GET`
-            - response: {
-                'students' : [
-                    {
-                        '<user_id>',
-                        '<email1>'
-                    },
-                    {
-                        '<user_id2>',
-                        '<email2>'
-                    },
-                    ...
-                ]
-            }
-        api/    
-            get-achievements-admin `GET`
-            - response: {
-                'unapproved' : [
-                    {
-                        '<achievement_id>',
-                        '<title>',
-                        '<description>',
-                        '<technical>',
-                        '<proof>',
-                        '<institution>',
-                        '<dateCreated>',
-                        '<achievedDate>',
-                        '<approved>',
-                        '<approvedBy>',
-                        '<addedBy>',
-                        'mentors':[],
-                        'teamMembers':[],
-                        'tags':[],
-                    },
-                    ...
-                ]
-            }
-
-## people
-    people/api/
-        education ` POST, GET, PATCH, DELETE `
-            -> PATCH
-                /<id:int>/ (id of the education)
-            -> GET
-                / (returns a list of all educations of the logged-in user)
-            -> GET
-                /<id:int> (id of the education you want)
-        skill ` POST, GET, PATCH, DELETE `
-            -> PATCH
-                /<id:int>/ (id of the skill)
-            -> GET
-                / (returns a list of all skills of the logged-in user)
-            -> GET
-                /<id:int> (id of the skill whose name you want)
-        staff ` POST, GET, PATCH, DELETE `
-            -> PATCH
-                /1/ (will automatically take your user)
-            -> GET
-                /<id:int> (id of the staff)
-            -> GET
-                / (returns the details of the logged-in user)
-        student ` POST, GET, PATCH, DELETE `
-            -> PATCH
-                /1/ (will automatically take your profile)
-            -> GET
-                /<id:int> (id of the student)
-            -> GET
-                / (returns the details of the logged-in user)
-        recruiter ` POST, GET, PATCH, DELETE `
-            -> PATCH
-                /1/ (will automatically take your profile)
-            -> GET
-                /<id:int> (id of the recruiter)
-            -> GET
-                / (returns the details of the logged-in user)
-
+        
 <hr>
 
 ## for every request:
@@ -449,7 +442,7 @@
 - (superuser) username = admin; password = admin
 
 # TODO
-    - Endpoint for approval
-    - Search functionality
-    - Add social mdeia handles in profile
-    - add privacy field for email and numbers
+    -[X] Endpoint for approval
+    -[X] Search functionality
+    -[X] Add social mdeia handles in profile
+    -[ ] add privacy field for email and numbers

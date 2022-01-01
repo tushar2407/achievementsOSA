@@ -57,7 +57,6 @@ INSTALLED_APPS = [
     # custsom apps
     'authenticate',
     'main',
-    'people',
 
     'corsheaders'
 ]
@@ -104,10 +103,10 @@ WSGI_APPLICATION = 'achievements.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE':'django.db.backends.postgresql_psycopg2',
-        'NAME':'d604nbeqcba3je',
-        'USER':'laxifgvyftmugc',
-        'PASSWORD':'28cf8fefa9f69a00946daba695c90ce45e6187306ccfcf35d4158144ec303d16',
-        'HOST':'ec2-23-21-229-200.compute-1.amazonaws.com',
+        'NAME':'d1v0l41qbhcl7b',
+        'USER':'kynlvybpxuvkne',
+        'PASSWORD':'05bae8db90b7c87a932ae3c87ebb2d9764b78609455fb397f86e96630ed9eef1',
+        'HOST':'ec2-34-236-87-247.compute-1.amazonaws.com',
         # 'NAME':os.getenv('DB_NAME'),
         # 'USER':os.getenv('DB_USER'),
         # 'PASSWORD':os.getenv('DB_USER_PASS'),
