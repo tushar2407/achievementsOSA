@@ -1,17 +1,11 @@
 from rest_framework import serializers
 from people.models import (
-    Department,
     Education, 
     Recruiter,
     Skill, 
     Staff,
     Student, 
 )
-
-class DepartmentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Department
-        fields = '__all__'
 
 class EducationSerializer(serializers.ModelSerializer):
     class Meta:

@@ -3,7 +3,6 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from people.models import (
-    Department, 
     Education,
     Recruiter,
     Skill,
@@ -11,7 +10,6 @@ from people.models import (
     Student
 )
 from people.serializers import (
-    DepartmentSerializer, 
     EducationSerializer,
     RecruiterSerializer,
     SkillSerializer,
@@ -20,12 +18,6 @@ from people.serializers import (
 
 )
 # Create your views here.
-
-class DepartmentViewset(viewsets.ModelViewSet):
-    serializer_class = DepartmentSerializer
-    queryset = Department.objects.all()
-    permission_classes = [IsAuthenticated,]
-    authentication_classes = [TokenAuthentication,]
 
 class EducationViewset(viewsets.ModelViewSet):
     serializer_class = EducationSerializer 

@@ -399,20 +399,13 @@
 
 ## people
     people/api/
-        department ` POST, GET, PATCH, DELETE `
-            -> PATCH
-                /<id:int>/ (id of the department)
-            -> GET
-                / (returns a list of all departments of the logged-in user)
-            -> GET
-                /<id:int> (id of the phone number you want)
         education ` POST, GET, PATCH, DELETE `
             -> PATCH
                 /<id:int>/ (id of the education)
             -> GET
                 / (returns a list of all educations of the logged-in user)
             -> GET
-                /<id:int> (id of the phone number you want)
+                /<id:int> (id of the education you want)
         skill ` POST, GET, PATCH, DELETE `
             -> PATCH
                 /<id:int>/ (id of the skill)

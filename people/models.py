@@ -1,13 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User 
+from django.contrib.auth.models import User
 # Create your models here.
 
-class Department(models.Model):
-    title = models.CharField(max_length = 256, unique = True, null = False)    
-
-    def __str__(self):
-        return f'{self.title}' 
-   
 class Skill(models.Model):
     title = models.CharField(max_length = 256, unique = True, null = False)    
 
@@ -27,7 +21,7 @@ class Staff(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     employeeId = models.CharField(max_length = 256, unique = True, null = False)
     associatedSince = models.DateField()
-    department = models.ForeignKey(Department, null = False, on_delete = models.CASCADE)
+    department = models.CharField(max_length = 256, blank=True)
     designation = models.CharField(max_length = 256)
 
     TITLE_CHOICES = (
