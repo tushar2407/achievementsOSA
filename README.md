@@ -100,7 +100,8 @@
             -> POST
                 - body : 
                     {
-                        'user' : <id>
+                        'user' : <id>,
+                        'designation' : 'staff'/'student'/'admin'
                     }
                 - response : {}
 
