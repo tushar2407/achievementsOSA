@@ -163,6 +163,14 @@ class StaffViewset(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user = self.request.user)
 
+    def retrieve(self, request, *args, **kwargs):
+        user = User.objects.get(id=kwargs['pk'])
+        r  = Response(data = self.serializer_class(Staff.objects.get(user=user)).data)
+        r.data['name'] = user.first_name+ " " + user.last_name
+        r.data['username'] = user.username
+        r.data['email'] = user.email
+        return r
+
 class StudentViewset(viewsets.ModelViewSet):
     serializer_class = StudentSerializer 
     queryset = Student.objects.all()
@@ -178,6 +186,14 @@ class StudentViewset(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         serializer.save(user = self.request.user)
+
+    def retrieve(self, request, *args, **kwargs):
+        user = User.objects.get(id=kwargs['pk'])
+        r  = Response(data = self.serializer_class(Student.objects.get(user=user)).data)
+        r.data['name'] = user.first_name+ " " + user.last_name
+        r.data['username'] = user.username
+        r.data['email'] = user.email
+        return r
 
 class RecruiterViewset(viewsets.ModelViewSet):
     serializer_class = RecruiterSerializer
