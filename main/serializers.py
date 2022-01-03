@@ -86,7 +86,7 @@ class SkillSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class StaffSerializer(serializers.ModelSerializer):
-    education = EducationSerializer(many = True, read_only = True)
+    education = EducationSerializer(many = True)
     class Meta:
         model = Staff 
         fields = '__all__'
@@ -95,7 +95,7 @@ class StaffSerializer(serializers.ModelSerializer):
         }
         
 class StudentSerializer(serializers.ModelSerializer):
-    education = EducationSerializer(many = True, read_only = True)
+    education = EducationSerializer(many = True)
     class Meta:
         model = Student 
         fields = '__all__'
