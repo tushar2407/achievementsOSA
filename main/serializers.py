@@ -1,3 +1,4 @@
+from django.http import response
 from rest_framework import serializers, validators
 
 from django.contrib.auth.models import User
@@ -93,6 +94,19 @@ class StaffSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'user':{'required':False}
         }
+    
+    def update(self, instance, validated_data):
+        education = validated_data.pop('education')
+        response = super().update(instance, validated_data)
+        for e in education:
+            instance.education.add(
+                Education.objects.get_or_create(
+                    degree = e['degree'], 
+                    year = e['year'], 
+                    institution = e['institution']
+                )[0]
+            )
+        return response
         
 class StudentSerializer(serializers.ModelSerializer):
     education = EducationSerializer(many = True)
@@ -102,3 +116,16 @@ class StudentSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'user':{'required':False}
         }
+    
+    def update(self, instance, validated_data):
+        education = validated_data.pop('education')
+        response = super().update(instance, validated_data)
+        for e in education:
+            instance.education.add(
+                Education.objects.get_or_create(
+                    degree = e['degree'], 
+                    year = e['year'], 
+                    institution = e['institution']
+                )[0]
+            )
+        return response

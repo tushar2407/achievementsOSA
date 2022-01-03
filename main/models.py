@@ -24,13 +24,14 @@ class Education(models.Model):
     year = models.IntegerField()
     
     def __str__(self):
-        return f'{self.institution} {self.degree}'
+        return f'{self.institution} {self.degree} {self.id}'
 
 class Tag(models.Model):
     title = models.CharField(max_length = 256, unique = True, null = False)    
 
     def __str__(self):
         return f'{self.title}'
+
 class Skill(models.Model):
     title = models.CharField(max_length = 256, unique = True, null = False)    
 
