@@ -39,6 +39,7 @@ from main.serializers import (
 from main.utils import get_achievements_json_format, get_projects_json_format
 
 from datetime import datetime 
+import json
 # Create your views here.
 
 class TagViewSet(viewsets.ModelViewSet):
@@ -312,3 +313,10 @@ def get_graph_data(request):
         'achievements_year' : achievements_year,
         'projects_year' : projects_year
     })
+
+@api_view(['GET', 'POST', 'PATCH'])
+@permission_classes([AllowAny,])
+def banner(request):
+    if request.method == 'POST' and request.user.is_authenticated:
+        json.dump(request.data, open("main/banner.json", "w+"))
+    return JsonResponse(data = json.load(open("main/banner.json", "r+")))
