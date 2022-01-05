@@ -97,7 +97,11 @@ class StaffSerializer(serializers.ModelSerializer):
     
     def update(self, instance, validated_data):
         education = validated_data.pop('education')
-        response = super().update(instance, validated_data)
+        _ = super().update(instance, validated_data)
+        
+        if not self.partial: ## when PUT request
+            instance.education.clear()
+        
         for e in education:
             instance.education.add(
                 Education.objects.get_or_create(
@@ -106,7 +110,7 @@ class StaffSerializer(serializers.ModelSerializer):
                     institution = e['institution']
                 )[0]
             )
-        return response
+        return instance
         
 class StudentSerializer(serializers.ModelSerializer):
     education = EducationSerializer(many = True)
@@ -119,7 +123,11 @@ class StudentSerializer(serializers.ModelSerializer):
     
     def update(self, instance, validated_data):
         education = validated_data.pop('education')
-        response = super().update(instance, validated_data)
+        _ = super().update(instance, validated_data)
+        
+        if not self.partial: ## when PUT request
+            instance.education.clear()
+        
         for e in education:
             instance.education.add(
                 Education.objects.get_or_create(
@@ -128,4 +136,4 @@ class StudentSerializer(serializers.ModelSerializer):
                     institution = e['institution']
                 )[0]
             )
-        return response
+        return instance
