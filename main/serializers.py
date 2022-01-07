@@ -1,9 +1,11 @@
+from django.contrib.auth.models import User
+from django.db.models import fields
 from django.http import response
 from rest_framework import serializers, validators
-
-from django.contrib.auth.models import User
+from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 from main.models import (
+    File,
     Tag,
     Achievement, 
     Project, 
@@ -14,6 +16,31 @@ from main.models import (
     Student,
     Recruiter
 )
+## helper function
+def create_files(parent, obj, validated_data):
+    request = obj.context.get("request")
+    instance = parent().create(validated_data)
+    files = request.FILES
+    if files:
+        for f in files.getlist("files"):
+            instance.files.create(file=f)
+    return instance     
+
+## helper function
+def update_files(parent, obj, instance, validated_data):
+    request = obj.context.get("request")
+    _ = parent().update(instance, validated_data)
+    
+    files = request.FILES
+    
+    if not obj.partial: ## when PUT request
+        instance.files.clear()
+    
+    if files:
+        for f in files.getlist("files"):
+            instance.files.create(file=f)
+    
+    return instance
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,7 +52,13 @@ class InstitutionSerializer(serializers.ModelSerializer):
         model = Institution
         fields = '__all__'
 
+class FileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = File
+        fields = '__all__'
+
 class AchievementSerializer(serializers.ModelSerializer):
+    files = FileSerializer(many=True, required = False)
     class Meta:
         model = Achievement
         fields = '__all__'
@@ -36,8 +69,15 @@ class AchievementSerializer(serializers.ModelSerializer):
             'tags':{'required':False},
             'mentors':{'required':False},
         }
+    
+    def create(self, validated_data):
+        return create_files(super, self, validated_data)
+    
+    def update(self, instance, validated_data):
+        return update_files(super, self, instance, validated_data)
 
 class ProjectSerializer(serializers.ModelSerializer):
+    files = FileSerializer(many=True, required = False)
     class Meta:
         model = Project
         fields = '__all__'
@@ -47,6 +87,12 @@ class ProjectSerializer(serializers.ModelSerializer):
             'students':{'required':False},
             'mentors':{'required':False},
         }
+
+    def create(self, validated_data):
+        return create_files(super, self, validated_data)
+    
+    def update(self, instance, validated_data):
+        return update_files(super, self, instance, validated_data)
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -86,7 +132,7 @@ class SkillSerializer(serializers.ModelSerializer):
         model = Skill 
         fields = '__all__'
 
-class StaffSerializer(serializers.ModelSerializer):
+class StaffSerializer(WritableNestedModelSerializer):
     education = EducationSerializer(many = True)
     class Meta:
         model = Staff 
@@ -112,7 +158,7 @@ class StaffSerializer(serializers.ModelSerializer):
             )
         return instance
         
-class StudentSerializer(serializers.ModelSerializer):
+class StudentSerializer(WritableNestedModelSerializer):
     education = EducationSerializer(many = True)
     class Meta:
         model = Student 

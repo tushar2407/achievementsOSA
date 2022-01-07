@@ -191,6 +191,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 LOGOUT_ON_PASSWORD_CHANGE = True
 
 USER_CREDS_URL = 'http://localhost:8080/token-auth/'

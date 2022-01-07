@@ -1,6 +1,7 @@
 from django.urls import path, include
 from main.views import (
-    AchievementViewset, 
+    AchievementViewset,
+    FileViewset, 
     InstitutionViewset,
     ProjectViewset, 
     TagViewSet, 
@@ -30,6 +31,7 @@ router.register(r'skill', SkillViewset)
 router.register(r'staff', StaffViewset)
 router.register(r'student', StudentViewset)
 router.register(r'recruiter', RecruiterViewset)
+router.register(r'file', FileViewset)
 
 urlpatterns = [
     path('api/', include(router.urls)),

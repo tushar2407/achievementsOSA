@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import response
-from django.http.response import JsonResponse
+from django.http.response import JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.authentication import TokenAuthentication 
@@ -22,9 +22,11 @@ from main.models import (
     Staff,
     Student,
     Recruiter,
+    File,
     CATEGORY_CHOICES,
 )
 from main.serializers import (
+    FileSerializer,
     TagSerializer, 
     ProjectSerializer, 
     AchievementSerializer, 
@@ -212,6 +214,12 @@ class RecruiterViewset(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user = self.request.user)
 
+class FileViewset(viewsets.ModelViewSet):
+    serializer_class = FileSerializer
+    queryset = File.objects.all()
+    permission_classes = [IsAuthenticated,]
+    authentication_classes = [TokenAuthentication,]
+
 def homepage(request):
     achievements_students = AchievementSerializer(Achievement.objects.filter(addedBy__profile__designation = 1).order_by('-dateCreated')[:10], many=True).data
     achievements_staffs = AchievementSerializer(Achievement.objects.filter(addedBy__profile__designation = 2).order_by('-dateCreated')[:10], many=True).data
@@ -317,6 +325,7 @@ def get_graph_data(request):
 @api_view(['GET', 'POST', 'PATCH'])
 @permission_classes([AllowAny,])
 def banner(request):
+    print(request.data)
     if request.method == 'POST' and request.user.is_authenticated:
         json.dump(request.data, open("main/banner.json", "w+"))
     return JsonResponse(data = json.load(open("main/banner.json", "r+")))

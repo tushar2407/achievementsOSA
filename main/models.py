@@ -1,5 +1,11 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.models import ContentType
+from django.db import models
+from django.dispatch import receiver
+
+import os
+
 # Create your models here.
 
 CATEGORY_CHOICES = (
@@ -37,6 +43,15 @@ class Skill(models.Model):
 
     def __str__(self):
         return f'{self.title}'
+
+class File(models.Model):
+    file = models.FileField()
+    content_type = models.ForeignKey(ContentType, on_delete = models.CASCADE, related_name='files')
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+    
+    def __str__(self):
+        return f'{self.file.path}'
 
 class Staff(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -100,12 +115,11 @@ class Achievement(models.Model):
     description = models.TextField()
     institution = models.ForeignKey(Institution, null = True, blank = True, on_delete=models.CASCADE)
     mentors = models.ManyToManyField(Staff, related_name='achievements', blank = True)
-    proof = models.URLField(null = True, max_length=1000)
     tags = models.ManyToManyField(Tag, related_name='achievements', blank = True)
     teamMembers = models.ManyToManyField(User, related_name='achievements', blank = True)
     technical = models.BooleanField(default = False)
     title = models.CharField(max_length = 256)
-    
+    files = GenericRelation(File)
     category = models.PositiveSmallIntegerField(choices = CATEGORY_CHOICES, default = 1)
     feedback = models.TextField(blank=True, null=True)
     
@@ -129,6 +143,13 @@ class Project(models.Model):
     tags = models.ManyToManyField(Tag, related_name='projects', blank = True)
     url = models.TextField(blank=True, null=True)
     feedback = models.TextField(blank=True, null=True)
+    files = GenericRelation(File)
 
     def __str__(self):
         return f'{self.title}'
+
+@receiver(models.signals.post_delete, sender=File)
+def auto_delete_file_on_delete(sender, instance, **kwargs):
+    if instance.file:
+        if os.path.isfile(instance.file.path):
+            os.remove(instance.file.path)

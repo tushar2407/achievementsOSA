@@ -126,3 +126,4 @@ dmypy.json
 .pyre/
 
 glove.6B.50d.txt
+media/

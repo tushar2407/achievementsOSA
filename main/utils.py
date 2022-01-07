@@ -70,4 +70,3 @@ def get_projects_json_format(user):
             i['students'] = StudentSerializer(Student.objects.filter(id__in = i['teamMembers']), many=True).data
     
     return projects
-        

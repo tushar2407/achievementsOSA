@@ -8,7 +8,8 @@ from main.models import (
     Education,
     Staff,
     Student,
-    Recruiter
+    Recruiter,
+    File
 )
 # Register your models here.
 
@@ -76,3 +77,4 @@ admin.site.register(Education)
 admin.site.register(Staff)
 admin.site.register(Student)
 admin.site.register(Recruiter)
+admin.site.register(File)
