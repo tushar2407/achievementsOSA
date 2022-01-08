@@ -1,8 +1,12 @@
 from django.db import models
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import User
-# Create your models here.
+from django.dispatch import receiver
+
 from main.models import Skill
+
+import os
+# Create your models here.
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name = 'profile')
@@ -24,7 +28,7 @@ class Profile(models.Model):
     )
     gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES, default = 3)
 
-    profile_pic = models.TextField(null = True, blank = True)
+    profile_pic = models.FileField(null = True, blank = True)
     address = models.TextField(blank = True, null = True)
     group = models.CharField(max_length = 256, blank = True, null = True)
     skills = models.ManyToManyField(Skill, related_name='people', blank = True)
@@ -51,3 +55,9 @@ class Phone(models.Model):
 
     def __str__(self):
         return f'{self.number} {self.user.username}'
+
+@receiver(models.signals.post_delete, sender=Profile)
+def auto_delete_file_on_delete(sender, instance, **kwargs):
+    if instance.profile_pic:
+        if os.path.isfile(instance.profile_pic.path):
+            os.remove(instance.profile_pic.path)

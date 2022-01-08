@@ -88,12 +88,12 @@ class UserLoginSerializer(LoginSerializer):
         return attrs
 
 class ProfileSerializer(serializers.ModelSerializer):
+    profile_pic = serializers.FileField(required = False)
     class Meta:
         model = Profile
         fields = '__all__'
         extra_kwargs = {
             'user':{'required':False},
-            'profile_pic':{'required':False},
             'address':{'required':False},
             'group':{'required':False},
             'skills':{'required':False},
@@ -102,6 +102,28 @@ class ProfileSerializer(serializers.ModelSerializer):
             'twitter':{'required':False},
             'github':{'required':False},
         }
+    
+    def create(self, validated_data):
+        request = self.context.get("request")
+        instance = super().create(validated_data)
+        files = request.FILES
+        if files:
+            for f in files.getlist("files"):
+                instance.profile_pic.create(file=f)
+        return instance
+    
+    def update(self, instance, validated_data):
+        request = self.context.get("request")
+        _ = super().update(instance, validated_data)
+                
+        files = request.FILES
+        if files:
+            instance.profile_pic.delete()
+            for f in files.getlist("profile_pic"):
+                instance.profile_pic.save(name=f.name, content=f)
+        
+        return instance
+
 
 class PhoneSerializer(serializers.ModelSerializer):
     class Meta:

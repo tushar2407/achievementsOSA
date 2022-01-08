@@ -121,6 +121,9 @@ class ProfileViewset(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication,]
     permission_classes = [IsAuthenticated,]
 
+    def get_queryset(self, *args, **kwargs):
+        return self.queryset.filter(user = self.request.user)
+
     def retrieve(self, request, *args, **kwargs):
         user = User.objects.get(id=kwargs['pk'])
         r  = Response(data = self.serializer_class(Profile.objects.get(user=user)).data)
@@ -144,8 +147,9 @@ class ProfileViewset(viewsets.ModelViewSet):
         )
     
     def partial_update(self, request, pk, *args, **kwargs):
-        pk= Profile.objects.get(user = request.user).id
-        return super().partial_update(request, pk, *args, **kwargs)
+        pk = Profile.objects.get(user = request.user).id
+        self.kwargs["pk"] = pk
+        return super().partial_update(request, *args, **kwargs)
     
     def perform_create(self, serializer):
         serializer.save(user = self.request.user)
