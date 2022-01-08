@@ -346,6 +346,6 @@ def banner(request):
                 os.remove(j)
         
         ## save all the paths of the uploaded files
-        json.dump({'data' : data}, open("main/banner.json", "w+"))
+        json.dump({'files' : data}, open("main/banner.json", "w+"))
    
     return JsonResponse(data = json.load(open("main/banner.json", "r+")))
