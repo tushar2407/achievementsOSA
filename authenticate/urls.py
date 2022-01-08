@@ -2,7 +2,6 @@ from django.contrib.auth.views import LogoutView
 from django.urls import path, include
 from authenticate.views import (
     CustomLoginView, 
-    PhoneViewset,
     ProfileViewset, 
     approve_users,
 )
@@ -11,7 +10,6 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'profile', ProfileViewset)
-router.register(r'phone', PhoneViewset)
 
 urlpatterns = [
     path('api/', include(router.urls)),

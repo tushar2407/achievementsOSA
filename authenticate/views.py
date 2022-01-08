@@ -17,8 +17,8 @@ from rest_framework.status import HTTP_200_OK
 
 from achievements.settings import USER_CREDS_URL
 from authenticate.decorators import is_admin
-from authenticate.models import Profile, Phone
-from authenticate.serializers import ProfileSerializer, PhoneSerializer
+from authenticate.models import Profile
+from authenticate.serializers import ProfileSerializer
 from main.utils import get_achievements_json_format, get_projects_json_format
 
 import requests
@@ -150,22 +150,7 @@ class ProfileViewset(viewsets.ModelViewSet):
         pk = Profile.objects.get(user = request.user).id
         self.kwargs["pk"] = pk
         return super().partial_update(request, *args, **kwargs)
-    
-    def perform_create(self, serializer):
-        serializer.save(user = self.request.user)
 
-class PhoneViewset(viewsets.ModelViewSet):
-    serializer_class = PhoneSerializer
-    queryset = Phone.objects.all()
-    authentication_classes = [TokenAuthentication,]
-    permission_classes = [IsAuthenticated,]
-
-    def get_queryset(self, *args, **kwargs):
-        return Phone.objects.filter(user = self.request.user)
-    
-    def partial_update(self, request, *args, **kwargs):
-        return super().partial_update(request, *args, **kwargs)
-    
     def perform_create(self, serializer):
         serializer.save(user = self.request.user)
 

@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from allauth.account.utils import send_email_confirmation, perform_login
 from django.contrib.auth import get_user_model, authenticate
 
-from authenticate.models import Profile, Phone
+from authenticate.models import Profile
 
 class UserLoginSerializer(LoginSerializer):
     # password = serializers.CharField(style={'input_type':'password'}, write_only=True)
@@ -123,12 +123,3 @@ class ProfileSerializer(serializers.ModelSerializer):
                 instance.profile_pic.save(name=f.name, content=f)
         
         return instance
-
-
-class PhoneSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Phone
-        fields = '__all__'
-        extra_kwargs = {
-            'user':{'required':False}
-        }
