@@ -311,7 +311,14 @@
                 /<id:int> (id of the recruiter)
             -> GET
                 / (returns the details of the logged-in user)
-
+        banner `POST, GET, PATCH, DELETE`
+            -> PATCH
+                /<id:int>/ (will update the details of the banner with given id)
+            -> GET
+                / (returns a listof all banners in the db)
+            ->
+                /<id:int> (return the specific banner)
+        
         search?q=''
             -> GET
                 - response : {
