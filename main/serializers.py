@@ -71,10 +71,30 @@ class AchievementSerializer(serializers.ModelSerializer):
         }
     
     def create(self, validated_data):
-        return create_files(super, self, validated_data)
+        request = self.context.get("request")
+        instance = super().create(validated_data)
+        files = request.FILES
+        if files:
+            for f in files.getlist("files"):
+                instance.files.create(file=f)
+        return instance     
+        # return create_files(super, self, validated_data)
     
     def update(self, instance, validated_data):
-        return update_files(super, self, instance, validated_data)
+        request = self.context.get("request")
+        _ = super().update(instance, validated_data)
+        
+        files = request.FILES
+        
+        if not self.partial: ## when PUT request
+            instance.files.clear()
+        
+        if files:
+            for f in files.getlist("files"):
+                instance.files.create(file=f)
+        
+        return instance
+        # return update_files(super, self, instance, validated_data)
 
 class ProjectSerializer(serializers.ModelSerializer):
     files = FileSerializer(many=True, required = False)
@@ -89,10 +109,30 @@ class ProjectSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        return create_files(super, self, validated_data)
+        request = self.context.get("request")
+        instance = super().create(validated_data)
+        files = request.FILES
+        if files:
+            for f in files.getlist("files"):
+                instance.files.create(file=f)
+        return instance 
+        # return create_files(super, self, validated_data)
     
     def update(self, instance, validated_data):
-        return update_files(super, self, instance, validated_data)
+        request = self.context.get("request")
+        _ = super().update(instance, validated_data)
+        
+        files = request.FILES
+        
+        if not self.partial: ## when PUT request
+            instance.files.clear()
+        
+        if files:
+            for f in files.getlist("files"):
+                instance.files.create(file=f)
+        
+        return instance
+        # return update_files(super, self, instance, validated_data)
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
