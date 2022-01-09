@@ -5,7 +5,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.files import File as django_File
 from django.core.files.storage import default_storage
 from django.db.models import Q
-from django.http import response
+from django.http import request, response
 from django.http.response import JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, status
@@ -14,9 +14,11 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
+from authenticate.decorators import is_admin
 from authenticate.models import Profile
 from authenticate.serializers import ProfileSerializer
 from main.models import (
+    Banner,
     Tag, 
     Project, 
     Achievement, 
@@ -30,6 +32,7 @@ from main.models import (
     CATEGORY_CHOICES,
 )
 from main.serializers import (
+    BannerSerializer,
     FileSerializer,
     TagSerializer, 
     ProjectSerializer, 
@@ -224,6 +227,20 @@ class FileViewset(viewsets.ModelViewSet):
     queryset = File.objects.all()
     permission_classes = [IsAuthenticated,]
     authentication_classes = [TokenAuthentication,]
+
+class BannerViewset(viewsets.ModelViewSet):
+    serializer_class = BannerSerializer
+    queryset = Banner.objects.all()
+    permission_classes = (AllowAny,)
+    authentication_classes = (TokenAuthentication,)
+
+    @is_admin
+    def update(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+    
+    @is_admin
+    def perform_create(self, serializer):
+        return super().perform_create(serializer)
 
 def homepage(request):
     achievements_students = AchievementSerializer(Achievement.objects.filter(addedBy__profile__designation = 1).order_by('-dateCreated')[:10], many=True).data

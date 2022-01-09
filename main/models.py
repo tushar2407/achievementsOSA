@@ -148,6 +148,15 @@ class Project(models.Model):
     def __str__(self):
         return f'{self.title}'
 
+class Banner(models.Model):
+    title = models.TextField()
+    link = models.TextField(null = True)
+    image = models.FileField()
+    description = models.TextField(null = True)
+
+    def __str__(self):
+        return f'{self.title}'
+
 @receiver(models.signals.post_delete, sender=File)
 def auto_delete_file_on_delete(sender, instance, **kwargs):
     if instance.file:

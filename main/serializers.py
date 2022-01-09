@@ -5,6 +5,7 @@ from rest_framework import serializers, validators
 from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 from main.models import (
+    Banner,
     File,
     Tag,
     Achievement, 
@@ -16,31 +17,6 @@ from main.models import (
     Student,
     Recruiter
 )
-## helper function
-def create_files(parent, obj, validated_data):
-    request = obj.context.get("request")
-    instance = parent().create(validated_data)
-    files = request.FILES
-    if files:
-        for f in files.getlist("files"):
-            instance.files.create(file=f)
-    return instance     
-
-## helper function
-def update_files(parent, obj, instance, validated_data):
-    request = obj.context.get("request")
-    _ = parent().update(instance, validated_data)
-    
-    files = request.FILES
-    
-    if not obj.partial: ## when PUT request
-        instance.files.clear()
-    
-    if files:
-        for f in files.getlist("files"):
-            instance.files.create(file=f)
-    
-    return instance
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
@@ -222,4 +198,30 @@ class StudentSerializer(WritableNestedModelSerializer):
                     institution = e['institution']
                 )[0]
             )
+        return instance
+
+class BannerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Banner 
+        fields = '__all__'
+    
+    def create(self, validated_data):
+        request = self.context.get("request")
+        instance = super().create(validated_data)
+        files = request.FILES
+        if files:
+            for f in files.getlist("files"):
+                instance.image.create(file=f)
+        return instance
+    
+    def update(self, instance, validated_data):
+        request = self.context.get("request")
+        _ = super().update(instance, validated_data)
+                
+        files = request.FILES
+        if files:
+            instance.image.delete()
+            for f in files.getlist("image"):
+                instance.image.save(name=f.name, content=f)
+        
         return instance

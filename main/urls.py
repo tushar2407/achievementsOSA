@@ -1,6 +1,7 @@
 from django.urls import path, include
 from main.views import (
     AchievementViewset,
+    BannerViewset,
     FileViewset, 
     InstitutionViewset,
     ProjectViewset, 
@@ -32,6 +33,7 @@ router.register(r'staff', StaffViewset)
 router.register(r'student', StudentViewset)
 router.register(r'recruiter', RecruiterViewset)
 router.register(r'file', FileViewset)
+router.register(r'banner', BannerViewset)
 
 urlpatterns = [
     path('api/', include(router.urls)),
@@ -42,5 +44,4 @@ urlpatterns = [
     path('api/get-projects-admin', get_projects_admin),
     path('api/search', search),
     path('api/graph', get_graph_data, name="graph_data"),
-    path('api/banner', banner, name = "banner"),
 ]

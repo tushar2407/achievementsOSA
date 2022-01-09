@@ -1,5 +1,6 @@
 from django.contrib import admin
 from main.models import (
+    Banner,
     Tag,
     Achievement, 
     Project, 
@@ -78,3 +79,4 @@ admin.site.register(Staff)
 admin.site.register(Student)
 admin.site.register(Recruiter)
 admin.site.register(File)
+admin.site.register(Banner)
