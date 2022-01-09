@@ -343,33 +343,3 @@ def get_graph_data(request):
         'achievements_year' : achievements_year,
         'projects_year' : projects_year
     })
-
-@api_view(['GET', 'POST'])
-@permission_classes([AllowAny,])
-@authentication_classes([TokenAuthentication, ])
-def banner(request):
-    ## only an authenticated user should be able to edit the banner
-    if (
-            request.method == 'POST' and 
-            request.user.is_authenticated and
-            request.data 
-        ):
-
-        data = []
-        for d in request.data['data']:
-            data.append({
-                k:v for k,v in d.items()
-            })
-            image_file = django_File(d['image'])
-            data[-1]['image'] = f"{get_current_site(request)}{settings.MEDIA_URL}"+default_storage.save(f'{image_file.name}', image_file)
-
-        ## delete the existing files
-        tobe_deleted_files = json.load(open('main/banner.json', "r+"))
-        for j in tobe_deleted_files['data']:
-            if os.path.isfile(j['image']):
-                os.remove(j['image'])
-        
-        ## save all the paths of the uploaded files
-        json.dump({'data' : data}, open("main/banner.json", "w+"))
-   
-    return JsonResponse(data = json.load(open("main/banner.json", "r+")))
