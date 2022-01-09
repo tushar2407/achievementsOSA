@@ -11,7 +11,6 @@ from main.views import (
     StaffViewset,
     StudentViewset,
     RecruiterViewset,
-    banner,
     get_graph_data,
     get_professors,
     get_students,
