@@ -1,5 +1,7 @@
+from django.conf import settings
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.files import File as django_File
 from django.core.files.storage import default_storage
 from django.db.models import Q
@@ -330,22 +332,27 @@ def get_graph_data(request):
 @authentication_classes([TokenAuthentication, ])
 def banner(request):
     ## only an authenticated user should be able to edit the banner
-    if request.method == 'POST' and request.user.is_authenticated:
-        
-        if request.FILES:  # check is a file was uploaded or not
-            data = []
-            ## save all the uploaded files
-            for f in request.FILES.getlist("files"):
-                image_file = django_File(f)
-                data.append(default_storage.save(f'{image_file.name}', image_file))
-        
+    if (
+            request.method == 'POST' and 
+            request.user.is_authenticated and
+            request.data 
+        ):
+
+        data = []
+        for d in request.data['data']:
+            data.append({
+                k:v for k,v in d.items()
+            })
+            image_file = django_File(d['image'])
+            data[-1]['image'] = f"{get_current_site(request)}{settings.MEDIA_URL}"+default_storage.save(f'{image_file.name}', image_file)
+
         ## delete the existing files
         tobe_deleted_files = json.load(open('main/banner.json', "r+"))
         for j in tobe_deleted_files['data']:
-            if os.path.isfile(j):
-                os.remove(j)
+            if os.path.isfile(j['image']):
+                os.remove(j['image'])
         
         ## save all the paths of the uploaded files
-        json.dump({'files' : data}, open("main/banner.json", "w+"))
+        json.dump({'data' : data}, open("main/banner.json", "w+"))
    
     return JsonResponse(data = json.load(open("main/banner.json", "r+")))
