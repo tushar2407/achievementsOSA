@@ -232,15 +232,21 @@ class BannerViewset(viewsets.ModelViewSet):
     serializer_class = BannerSerializer
     queryset = Banner.objects.all()
     permission_classes = (AllowAny,)
-    authentication_classes = (TokenAuthentication,)
 
+    @authentication_classes([TokenAuthentication,])
     @is_admin
     def update(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
     
+    @authentication_classes([TokenAuthentication,])
     @is_admin
     def perform_create(self, serializer):
         return super().perform_create(serializer)
+    
+    @authentication_classes([TokenAuthentication,])
+    @is_admin
+    def destroy(self, request, *args, **kwargs):
+        return super().destroy(request, *args, **kwargs)
 
 def homepage(request):
     achievements_students = AchievementSerializer(Achievement.objects.filter(addedBy__profile__designation = 1).order_by('-dateCreated')[:10], many=True).data
