@@ -23,13 +23,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'wk$b9u3m=hcs7j0pb7k&1$)3p+cz_2qb9761*%o-yf4$hez-)8'
+SECRET_KEY = 'iyvwer2320bsdf!@3123!@#12312osubfosf'
 # SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.204', 'localhost', '127.0.0.1', 'achieve.osa.iiitd.edu.in']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -197,9 +197,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGOUT_ON_PASSWORD_CHANGE = True
 
 USER_CREDS_URL = 'http://localhost:8080/token-auth/'
-# USER_CREDS_URL = 'https://auth.osa.iiitd.edu.in/token-auth/'
 # AUTHENTICATION_OSA_URL = os.getenv('AUTHENTICATION_OSA_URL')
-AUTHENTICATION_USER_OSA_URL = 'https://osa.iiitd.edu.in/core/current_user/'
+AUTHENTICATION_USER_OSA_URL = 'https://localhost:8000/core/current_user/'
 # AUTHENTICATION_USER_OSA_URL = os.getenv('AUTHENTICATION_USER_OSA_URL')
 
 django_heroku.settings(locals())
